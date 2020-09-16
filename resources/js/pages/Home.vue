@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import axios from 'axios';
-import AppTextarea from '../components/AppTextarea.vue';
-import MessageCard from '../components/MessageCard.vue';
+import axios from 'axios'
+import AppTextarea from '../components/AppTextarea.vue'
+import MessageCard from '../components/MessageCard.vue'
 export default {
     components: {
         AppTextarea,
-        MessageCard
+        MessageCard,
     },
     data() {
         return {
@@ -45,16 +45,16 @@ export default {
             form: {
                 message: null,
             },
-            errors: null
-        };
-    },
-    created() {
-        this.fetchPost()
+            errors: null,
+        }
     },
     computed: {
         loggedIn() {
             return this.$store.getters['auth/loggedIn']
-        }
+        },
+    },
+    created() {
+        this.fetchPost()
     },
     methods: {
         async fetchPost() {
@@ -62,32 +62,30 @@ export default {
             this.posts = [...response.data]
         },
         formState(name) {
-            return this.errors &&
-                this.errors[name] &&
-                0 < this.errors[name].length
+            return this.errors && this.errors[name] && 0 < this.errors[name].length
                 ? this.errors[name][0]
-                : ""
+                : ''
         },
         onSubmit() {
-            axios.post('/api/post', this.form)
-                .then(response => {
-                    this.form.message = null;
+            axios
+                .post('/api/post', this.form)
+                .then((response) => {
+                    this.form.message = null
                     this.posts = [response.data, ...this.posts]
                 })
-                .catch(err => {
-                    const response = err.response;
-                    const errors = response.data.errors;
+                .catch((err) => {
+                    const response = err.response
+                    const errors = response.data.errors
                     if (errors) {
-                        this.errors = errors;
+                        this.errors = errors
                     }
-                });
+                })
         },
         deletePost(post) {
-            axios.delete(`/api/post/${post.id}`, this.form)
-                .then(response => {
-                    this.posts = this.posts.filter(p => p.id !== post.id)
-                });
-        }
-    }
-};
+            axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
+                this.posts = this.posts.filter((p) => p.id !== post.id)
+            })
+        },
+    },
+}
 </script>

@@ -36,38 +36,39 @@ export default {
         label: {
             type: String,
             require: false,
-            default: null
+            default: null,
         },
         type: {
             type: String,
             require: false,
-            default: 'text'
+            default: 'text',
         },
         value: {
             type: String,
             require: false,
-            default: null
+            default: null,
         },
         required: {
             type: Boolean,
             require: false,
-            default: true
+            default: true,
         },
         disabled: {
             type: Boolean,
             require: false,
-            default: false
+            default: false,
         },
         error: {
             type: String,
             require: false,
-            default: false
-        }
+            default: '',
+        },
     },
+    emits: ['input'],
     methods: {
         updateInput(event) {
-            this.$emit("input", event.currentTarget.value);
-        }
-    }
-};
+            this.$emit('input', event.currentTarget.value)
+        },
+    },
+}
 </script>

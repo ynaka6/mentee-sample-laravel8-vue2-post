@@ -45,7 +45,7 @@ import AppTitle from '../components/AppTitle.vue'
 export default {
     components: {
         AppInput,
-        AppTitle
+        AppTitle,
     },
     data() {
         return {
@@ -53,35 +53,34 @@ export default {
                 name: null,
                 email: null,
                 password: null,
-                password_confirmation: null
+                password_confirmation: null,
             },
             errors: null,
-            completed: false
-        };
+            completed: false,
+        }
     },
     methods: {
         formState(name) {
-            return this.errors &&
-                this.errors[name] &&
-                0 < this.errors[name].length
+            return this.errors && this.errors[name] && 0 < this.errors[name].length
                 ? this.errors[name][0]
-                : ""
+                : ''
         },
         onSubmit() {
-            this.$store.dispatch("auth/register", this.form)
+            this.$store
+                .dispatch('auth/register', this.form)
                 .then(() => {
-                    this.$router.push("/");
+                    this.$router.push('/')
                 })
-                .catch(err => {
-                    console.log(err);
-                    const response = err.response;
-                    console.log(response);
-                    const errors = response.data.errors || null;
+                .catch((err) => {
+                    console.log(err)
+                    const response = err.response
+                    console.log(response)
+                    const errors = response.data.errors || null
                     if (errors) {
-                        this.errors = errors;
+                        this.errors = errors
                     }
-                });
-        }
-    }
-};
+                })
+        },
+    },
+}
 </script>

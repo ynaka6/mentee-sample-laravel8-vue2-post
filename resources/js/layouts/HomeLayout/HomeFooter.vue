@@ -8,9 +8,9 @@
                         <div class="px-3 md:px-0">
                             <h3 class="font-bold text-gray-900">About</h3>
                             <p class="py-4 text-sm text-gray-600">
-                                <a href="https://laravel.com/docs/8.x" target="_blank" ref="nolooper">Laravel8</a> と <a href="https://jp.vuejs.org/index.html" target="_blank" ref="nolooper">Vue.js</a>を利用したサンプルWebアプリ<br>
+                                <a ref="nolooper" href="https://laravel.com/docs/8.x" target="_blank">Laravel8</a> と <a ref="nolooper" href="https://jp.vuejs.org/index.html" target="_blank">Vue.js</a>を利用したサンプルWebアプリ<br>
                                 LaravelとVue.jsの基本構成を学びたい人向け<br>
-                                <a href="https://tailwindcss.com/" target="_blank" ref="nolooper">tailwindcss</a> を利用してUIを構築しています。
+                                <a ref="nolooper" href="https://tailwindcss.com/" target="_blank">tailwindcss</a> を利用してUIを構築しています。
                             </p>
                         </div>
                     </div>

@@ -1,66 +1,66 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Register from "../pages/Register.vue";
-import Login from "../pages/Login.vue";
-import Home from "../pages/Home.vue";
-import store from "../store";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Register from '../pages/Register.vue'
+import Login from '../pages/Login.vue'
+import Home from '../pages/Home.vue'
+import store from '../store'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
     {
-        path: "/login",
-        name: "login",
+        path: '/login',
+        name: 'login',
         component: Login,
-        meta: { layout: "default", requiresGuest: true }
+        meta: { layout: 'default', requiresGuest: true },
     },
     {
-        path: "/register",
-        name: "register",
+        path: '/register',
+        name: 'register',
         component: Register,
-        meta: { layout: "default", requiresGuest: true }
+        meta: { layout: 'default', requiresGuest: true },
     },
     {
-        path: "/",
-        name: "home",
+        path: '/',
+        name: 'home',
         component: Home,
-        meta: { layout: "home" }
+        meta: { layout: 'home' },
     },
     {
-        path: "*",
-        meta: { layout: "error", error: 404 }
-    }
-];
+        path: '*',
+        meta: { layout: 'error', error: 404 },
+    },
+]
 
 const router = new VueRouter({
-    mode: "history",
-    base: "/",
+    mode: 'history',
+    base: '/',
     routes,
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
-            return savedPosition;
+            return savedPosition
         } else {
-            return { x: 0, y: 0 };
+            return { x: 0, y: 0 }
         }
-    }
-});
+    },
+})
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters["auth/loggedIn"]) {
-            next({ path: "/login" });
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (!store.getters['auth/loggedIn']) {
+            next({ path: '/login' })
         } else {
-            next();
+            next()
         }
-    } else if (to.matched.some(record => record.meta.requiresGuest)) {
-        if (store.getters["auth/loggedIn"]) {
-            next({ path: "/" });
+    } else if (to.matched.some((record) => record.meta.requiresGuest)) {
+        if (store.getters['auth/loggedIn']) {
+            next({ path: '/' })
         } else {
-            next();
+            next()
         }
     } else {
-        next();
+        next()
     }
-});
+})
 
-export default router;
+export default router

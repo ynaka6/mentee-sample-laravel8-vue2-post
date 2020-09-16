@@ -12,15 +12,15 @@ export default {
         title: {
             type: String,
             require: true,
-            default: null
+            default: null,
         },
         tagName: {
             type: String,
             require: false,
-            default: 'h1'
-        }
-    }
-};
+            default: 'h1',
+        },
+    },
+}
 </script>
 
 <style scoped>

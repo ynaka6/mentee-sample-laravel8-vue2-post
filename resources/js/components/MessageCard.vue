@@ -28,15 +28,16 @@ export default {
         post: {
             type: Object,
             require: true,
-            default: null
-        }
+            default: null,
+        },
     },
+    emits: ['delete'],
     methods: {
         onClickDelete() {
             if (confirm('削除してもよろしいですか？')) {
-                this.$emit("delete", this.post);
+                this.$emit('delete', this.post)
             }
-        }
-    }
-};
+        },
+    },
+}
 </script>

@@ -32,38 +32,37 @@ import AppTitle from '../components/AppTitle.vue'
 export default {
     components: {
         AppInput,
-        AppTitle
+        AppTitle,
     },
     data() {
         return {
             form: {
                 email: null,
-                password: null
+                password: null,
             },
-            errors: null
-        };
+            errors: null,
+        }
     },
     methods: {
         formState(name) {
-            return this.errors &&
-                this.errors[name] &&
-                0 < this.errors[name].length
+            return this.errors && this.errors[name] && 0 < this.errors[name].length
                 ? this.errors[name][0]
                 : ''
         },
         onSubmit() {
-            this.$store.dispatch("auth/login", this.form)
+            this.$store
+                .dispatch('auth/login', this.form)
                 .then(() => {
-                    this.$router.push("/");
+                    this.$router.push('/')
                 })
-                .catch(err => {
-                    const response = err.response;
-                    const errors = response.data.errors;
+                .catch((err) => {
+                    const response = err.response
+                    const errors = response.data.errors
                     if (errors) {
-                        this.errors = errors;
+                        this.errors = errors
                     }
-                });
-        }
-    }
-};
+                })
+        },
+    },
+}
 </script>

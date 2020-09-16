@@ -1953,16 +1953,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   metaInfo: {
-    titleTemplate: "Laravel8 & Vue.js Demo | %s",
+    titleTemplate: 'Laravel8 & Vue.js Demo | %s',
     htmlAttrs: {
-      lang: "ja"
+      lang: 'ja'
     }
   },
   computed: {
     layout: {
       cache: false,
       get: function get() {
-        return "".concat(this.$route.meta.layout || "default", "-layout");
+        return "".concat(this.$route.meta.layout || 'default', "-layout");
       }
     }
   }
@@ -2041,12 +2041,13 @@ __webpack_require__.r(__webpack_exports__);
     error: {
       type: String,
       require: false,
-      "default": false
+      "default": ''
     }
   },
+  emits: ['input'],
   methods: {
     updateInput: function updateInput(event) {
-      this.$emit("input", event.currentTarget.value);
+      this.$emit('input', event.currentTarget.value);
     }
   }
 });
@@ -2118,12 +2119,13 @@ __webpack_require__.r(__webpack_exports__);
     error: {
       type: String,
       require: false,
-      "default": false
+      "default": ''
     }
   },
+  emits: ['input'],
   methods: {
     updateInput: function updateInput(event) {
-      this.$emit("input", event.currentTarget.value);
+      this.$emit('input', event.currentTarget.value);
     }
   }
 });
@@ -2205,10 +2207,11 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     }
   },
+  emits: ['delete'],
   methods: {
     onClickDelete: function onClickDelete() {
       if (confirm('削除してもよろしいですか？')) {
-        this.$emit("delete", this.post);
+        this.$emit('delete', this.post);
       }
     }
   }
@@ -2493,8 +2496,8 @@ __webpack_require__.r(__webpack_exports__);
     onClickLogout: function onClickLogout() {
       var _this = this;
 
-      this.$store.dispatch("auth/logout").then(function () {
-        _this.$router.push("/login");
+      this.$store.dispatch('auth/logout').then(function () {
+        _this.$router.push('/login');
       });
     }
   }
@@ -2584,13 +2587,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: null
     };
   },
-  created: function created() {
-    this.fetchPost();
-  },
   computed: {
     loggedIn: function loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     }
+  },
+  created: function created() {
+    this.fetchPost();
   },
   methods: {
     fetchPost: function fetchPost() {
@@ -2618,7 +2621,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     formState: function formState(name) {
-      return this.errors && this.errors[name] && 0 < this.errors[name].length ? this.errors[name][0] : "";
+      return this.errors && this.errors[name] && 0 < this.errors[name].length ? this.errors[name][0] : '';
     },
     onSubmit: function onSubmit() {
       var _this2 = this;
@@ -2711,8 +2714,8 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit() {
       var _this = this;
 
-      this.$store.dispatch("auth/login", this.form).then(function () {
-        _this.$router.push("/");
+      this.$store.dispatch('auth/login', this.form).then(function () {
+        _this.$router.push('/');
       })["catch"](function (err) {
         var response = err.response;
         var errors = response.data.errors;
@@ -2800,13 +2803,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     formState: function formState(name) {
-      return this.errors && this.errors[name] && 0 < this.errors[name].length ? this.errors[name][0] : "";
+      return this.errors && this.errors[name] && 0 < this.errors[name].length ? this.errors[name][0] : '';
     },
     onSubmit: function onSubmit() {
       var _this = this;
 
-      this.$store.dispatch("auth/register", this.form).then(function () {
-        _this.$router.push("/");
+      this.$store.dispatch('auth/register', this.form).then(function () {
+        _this.$router.push('/');
       })["catch"](function (err) {
         console.log(err);
         var response = err.response;
@@ -5275,18 +5278,18 @@ var render = function() {
                 _c("g", { attrs: { id: "icon_face" } }, [
                   _c("path", {
                     attrs: {
+                      id: "Fill-5",
                       d:
                         "M52 71.5c3.163 0 6.023.823 8.537 2.297.52-.607 3.726-4.247 4.376-4.94A23.353 23.353 0 0052 65c-4.81 0-9.23 1.43-12.957 3.813 4.204 4.724.044.087 4.377 4.94 2.557-1.43 5.417-2.253 8.58-2.253m0 15.167c-19.153 0-34.667-15.514-34.667-34.667 0-19.153 15.514-34.667 34.667-34.667 19.153 0 34.667 15.514 34.667 34.667 0 19.153-15.514 34.667-34.667 34.667m-.043-78C75.92 8.667 95.333 28.08 95.333 52c0 23.92-19.413 43.333-43.376 43.333-23.92 0-43.29-19.413-43.29-43.333 0-23.92 19.37-43.333 43.29-43.333zM35.75 39a5.414 5.414 0 00-5.417 5.417 5.414 5.414 0 005.417 5.416 5.414 5.414 0 005.417-5.416A5.414 5.414 0 0035.75 39zm30.333 0a5.416 5.416 0 100 10.833 5.416 5.416 0 000-10.833z",
-                      id: "Fill-5",
                       fill: "#777"
                     }
                   }),
                   _vm._v(" "),
                   _c("path", {
                     attrs: {
+                      id: "Oval",
                       d:
                         "M67.167 78a8.667 8.667 0 008.666-8.667c0-3.19-2.889-8.968-8.666-17.333-5.778 8.365-8.667 14.142-8.667 17.333A8.667 8.667 0 0067.167 78z",
-                      id: "Oval",
                       fill: "#A3D1F1"
                     }
                   })
@@ -24586,17 +24589,17 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_meta__WEBPACK_IMPORTED_MODULE_1__["default"], {
   refreshOnceOnNavigation: true
 });
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("default-layout", _layouts_DefaultLayout_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("error-layout", _layouts_ErrorLayout_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("home-layout", _layouts_HomeLayout_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
-_store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch("auth/setUser", window.currentUser);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('DefaultLayout', _layouts_DefaultLayout_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ErrorLayout', _layouts_ErrorLayout_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('HomeLayout', _layouts_HomeLayout_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
+_store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('auth/setUser', window.currentUser);
 var vm = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
   store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
   render: function render(h) {
     return h(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
-}).$mount("#app");
+}).$mount('#app');
 console.log(vm);
 
 /***/ }),
@@ -25524,38 +25527,38 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var routes = [{
-  path: "/login",
-  name: "login",
+  path: '/login',
+  name: 'login',
   component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   meta: {
-    layout: "default",
+    layout: 'default',
     requiresGuest: true
   }
 }, {
-  path: "/register",
-  name: "register",
+  path: '/register',
+  name: 'register',
   component: _pages_Register_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
   meta: {
-    layout: "default",
+    layout: 'default',
     requiresGuest: true
   }
 }, {
-  path: "/",
-  name: "home",
+  path: '/',
+  name: 'home',
   component: _pages_Home_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   meta: {
-    layout: "home"
+    layout: 'home'
   }
 }, {
-  path: "*",
+  path: '*',
   meta: {
-    layout: "error",
+    layout: 'error',
     error: 404
   }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: "history",
-  base: "/",
+  mode: 'history',
+  base: '/',
   routes: routes,
   scrollBehavior: function scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -25572,9 +25575,9 @@ router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
-    if (!_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters["auth/loggedIn"]) {
+    if (!_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters['auth/loggedIn']) {
       next({
-        path: "/login"
+        path: '/login'
       });
     } else {
       next();
@@ -25582,9 +25585,9 @@ router.beforeEach(function (to, from, next) {
   } else if (to.matched.some(function (record) {
     return record.meta.requiresGuest;
   })) {
-    if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters["auth/loggedIn"]) {
+    if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getters['auth/loggedIn']) {
       next({
-        path: "/"
+        path: '/'
       });
     } else {
       next();
@@ -25655,9 +25658,9 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              return _context.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/register", _register).then(function (response) {
+              return _context.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/register', _register).then(function (response) {
                 var user = response.data || null;
-                commit("SET_USER", user);
+                commit('SET_USER', user);
                 return user;
               }));
 
@@ -25683,9 +25686,9 @@ var actions = {
           switch (_context2.prev = _context2.next) {
             case 0:
               commit = _ref2.commit;
-              return _context2.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/login", _login).then(function (response) {
+              return _context2.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/login', _login).then(function (response) {
                 var user = response.data || null;
-                commit("SET_USER", user);
+                commit('SET_USER', user);
                 return user;
               }));
 
@@ -25711,8 +25714,8 @@ var actions = {
           switch (_context3.prev = _context3.next) {
             case 0:
               commit = _ref3.commit;
-              return _context3.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/logout").then(function () {
-                commit("RESET_USER");
+              return _context3.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('/api/logout').then(function () {
+                commit('RESET_USER');
               }));
 
             case 2:
@@ -25737,7 +25740,7 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref4.commit;
-              commit("SET_USER", user);
+              commit('SET_USER', user);
 
             case 2:
             case "end":
@@ -25761,7 +25764,7 @@ var actions = {
           switch (_context5.prev = _context5.next) {
             case 0:
               commit = _ref5.commit;
-              commit("RESET_USER");
+              commit('RESET_USER');
 
             case 2:
             case "end":

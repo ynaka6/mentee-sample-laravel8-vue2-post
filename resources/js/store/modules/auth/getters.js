@@ -1,10 +1,10 @@
 const getters = {
-    user: state => {
-        return state.user;
+    user: (state) => {
+        return state.user
     },
-    loggedIn: state => {
-        return null !== state.user;
-    }
-};
+    loggedIn: (state) => {
+        return null !== state.user
+    },
+}
 
-export default getters;
+export default getters
