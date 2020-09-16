@@ -1,5 +1,5 @@
 const state = {
-    user: null
-};
+    user: null,
+}
 
-export default state;
+export default state

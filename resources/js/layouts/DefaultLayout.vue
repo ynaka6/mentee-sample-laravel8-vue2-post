@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import HomeFooter from "./HomeLayout/HomeFooter.vue";
+import HomeFooter from './HomeLayout/HomeFooter.vue'
 export default {
     components: {
-        HomeFooter
-    }
-};
+        HomeFooter,
+    },
+}
 </script>

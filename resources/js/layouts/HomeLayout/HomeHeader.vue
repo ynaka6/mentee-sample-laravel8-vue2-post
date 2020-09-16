@@ -47,14 +47,14 @@ export default {
     computed: {
         user() {
             return this.$store.getters['auth/user']
-        }
+        },
     },
     methods: {
         onClickLogout() {
-            this.$store.dispatch("auth/logout").then(() => {
-                this.$router.push("/login");
-            });
-        }
-    }
-};
+            this.$store.dispatch('auth/logout').then(() => {
+                this.$router.push('/login')
+            })
+        },
+    },
+}
 </script>

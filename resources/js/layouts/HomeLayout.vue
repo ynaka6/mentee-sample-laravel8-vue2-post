@@ -18,22 +18,22 @@
 </template>
 
 <script>
-import HomeHeader from "./HomeLayout/HomeHeader.vue";
-import HomeFooter from "./HomeLayout/HomeFooter.vue";
+import HomeHeader from './HomeLayout/HomeHeader.vue'
+import HomeFooter from './HomeLayout/HomeFooter.vue'
 export default {
     components: {
         HomeHeader,
-        HomeFooter
+        HomeFooter,
     },
     data() {
         return {
-            drawer: false
-        };
+            drawer: false,
+        }
     },
     methods: {
         onClickMenu() {
-            this.drawer = !this.drawer;
-        }
-    }
-};
+            this.drawer = !this.drawer
+        },
+    },
+}
 </script>

@@ -1,22 +1,22 @@
 <template>
-    <component v-bind:is="layout" />
+    <component :is="layout" />
 </template>
 
 <script>
 export default {
     metaInfo: {
-        titleTemplate: "Laravel8 & Vue.js Demo | %s",
+        titleTemplate: 'Laravel8 & Vue.js Demo | %s',
         htmlAttrs: {
-            lang: "ja"
-        }
+            lang: 'ja',
+        },
     },
     computed: {
         layout: {
             cache: false,
-            get: function() {
-                return `${this.$route.meta.layout || "default"}-layout`;
-            }
-        }
-    }
-};
+            get: function () {
+                return `${this.$route.meta.layout || 'default'}-layout`
+            },
+        },
+    },
+}
 </script>

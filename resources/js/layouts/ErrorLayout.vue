@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import HomeFooter from "./HomeLayout/HomeFooter.vue";
-import ErrorPage from "./Error/ErrorPage.vue";
+import HomeFooter from './HomeLayout/HomeFooter.vue'
+import ErrorPage from './Error/ErrorPage.vue'
 export default {
     components: {
         HomeFooter,
-        ErrorPage
-    }
-};
+        ErrorPage,
+    },
+}
 </script>
