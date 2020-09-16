@@ -13,11 +13,22 @@ class PostController extends Controller
 {
     private $eloquentPost;
 
+    /**
+     * Constructor
+     *
+     * @param Post $eloquentPost
+     */
     public function __construct(Post $eloquentPost)
     {
-        $this->eloquentPost = $eloquentPost;   
+        $this->eloquentPost = $eloquentPost;
     }
 
+    /**
+     * 投稿一覧取得
+     *
+     * @param SearchRequest $request
+     * @return void
+     */
     public function index(SearchRequest $request)
     {
         return response()
@@ -32,6 +43,12 @@ class PostController extends Controller
         ;
     }
 
+    /**
+     * 投稿登録処理
+     *
+     * @param CreateRequest $request
+     * @return void
+     */
     public function store(CreateRequest $request)
     {
         return response()
@@ -42,7 +59,12 @@ class PostController extends Controller
         ;
     }
 
-
+    /**
+     * 投稿削除
+     *
+     * @param Post $post
+     * @return void
+     */
     public function delete(Post $post)
     {
         $post->delete();
@@ -50,6 +72,13 @@ class PostController extends Controller
     }
 
 
+    /**
+     * Postデータの変換処理
+     *
+     *
+     * @param Post $post
+     * @return array
+     */
     public function transformPost(Post $post): array
     {
         return $post->getAttributes() + [ 'me' => $post->user->is(Auth::user()) ];

@@ -10,7 +10,7 @@ use App\Http\Requests\Api\Auth\RegisterRequest;
 class RegisterController extends Controller
 {
     public function handle(RegisterRequest $request)
-    {    
+    {
         $user = User::create($request->validated());
         Auth::login($user);
         return response()->json(compact('user'));
