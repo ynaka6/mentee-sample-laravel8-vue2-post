@@ -59,7 +59,6 @@ export default {
     methods: {
         async fetchPost() {
             const response = await axios.get('/api/posts')
-            console.log(response.data);
             this.posts = [...response.data]
         },
         formState(name) {

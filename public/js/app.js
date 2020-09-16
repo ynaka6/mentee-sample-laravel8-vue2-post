@@ -2607,10 +2607,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 response = _context.sent;
-                console.log(response.data);
                 _this.posts = _toConsumableArray(response.data);
 
-              case 5:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -2774,6 +2773,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2784,6 +2789,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
+        name: null,
         email: null,
         password: null,
         password_confirmation: null
@@ -2802,8 +2808,10 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch("auth/register", this.form).then(function () {
         _this.$router.push("/");
       })["catch"](function (err) {
+        console.log(err);
         var response = err.response;
-        var errors = response.data.errors;
+        console.log(response);
+        var errors = response.data.errors || null;
 
         if (errors) {
           _this.errors = errors;
@@ -5899,6 +5907,21 @@ var render = function() {
               }
             },
             [
+              _c("app-input", {
+                attrs: {
+                  label: "ユーザー名",
+                  type: "text",
+                  error: _vm.formState("name")
+                },
+                model: {
+                  value: _vm.form.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "name", $$v)
+                  },
+                  expression: "form.name"
+                }
+              }),
+              _vm._v(" "),
               _c("app-input", {
                 attrs: {
                   label: "メールアドレス",
@@ -25625,19 +25648,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var actions = {
   register: function () {
-    var _register2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(context, _register) {
+    var _register2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref, _register) {
+      var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              commit = _ref.commit;
               return _context.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/register", _register).then(function (response) {
                 var user = response.data || null;
-                console.log(user);
                 commit("SET_USER", user);
                 return user;
               }));
 
-            case 1:
+            case 2:
             case "end":
               return _context.stop();
           }
@@ -25652,16 +25676,15 @@ var actions = {
     return register;
   }(),
   login: function () {
-    var _login2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref, _login) {
+    var _login2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2, _login) {
       var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              commit = _ref.commit;
+              commit = _ref2.commit;
               return _context2.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/login", _login).then(function (response) {
                 var user = response.data || null;
-                console.log(user);
                 commit("SET_USER", user);
                 return user;
               }));
@@ -25681,13 +25704,13 @@ var actions = {
     return login;
   }(),
   logout: function () {
-    var _logout = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref2) {
+    var _logout = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref3) {
       var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref2.commit;
+              commit = _ref3.commit;
               return _context3.abrupt("return", axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/logout").then(function () {
                 commit("RESET_USER");
               }));
@@ -25707,13 +25730,13 @@ var actions = {
     return logout;
   }(),
   setUser: function () {
-    var _setUser = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref3, user) {
+    var _setUser = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref4, user) {
       var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              commit = _ref3.commit;
+              commit = _ref4.commit;
               commit("SET_USER", user);
 
             case 2:
@@ -25731,13 +25754,13 @@ var actions = {
     return setUser;
   }(),
   resetUser: function () {
-    var _resetUser = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(_ref4) {
+    var _resetUser = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(_ref5) {
       var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              commit = _ref4.commit;
+              commit = _ref5.commit;
               commit("RESET_USER");
 
             case 2:

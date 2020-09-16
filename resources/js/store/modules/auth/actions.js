@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const actions = {
-    register: async (context, register) => {
+    register: async ({ commit }, register) => {
         return axios.post("/api/register", register).then(response => {
             const user = response.data || null;
-            console.log(user);
             commit("SET_USER", user);
             return user;
         });
@@ -12,7 +11,6 @@ const actions = {
     login: async ({ commit }, login) => {
         return axios.post("/api/login", login).then(response => {
             const user = response.data || null;
-            console.log(user);
             commit("SET_USER", user);
             return user;
         });

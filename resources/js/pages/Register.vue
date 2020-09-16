@@ -4,6 +4,12 @@
             <app-title title="Create a account" class="text-center" />
             <form class="my-8" @submit.prevent="onSubmit">
                 <app-input
+                    v-model="form.name"
+                    label="ユーザー名"
+                    type="text"
+                    :error="formState('name')"
+                />
+                <app-input
                     v-model="form.email"
                     label="メールアドレス"
                     type="email"
@@ -44,6 +50,7 @@ export default {
     data() {
         return {
             form: {
+                name: null,
                 email: null,
                 password: null,
                 password_confirmation: null
@@ -66,8 +73,10 @@ export default {
                     this.$router.push("/");
                 })
                 .catch(err => {
+                    console.log(err);
                     const response = err.response;
-                    const errors = response.data.errors;
+                    console.log(response);
+                    const errors = response.data.errors || null;
                     if (errors) {
                         this.errors = errors;
                     }
