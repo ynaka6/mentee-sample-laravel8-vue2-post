@@ -1,0 +1,22 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Heroku Deploy
+
+on:
+  push:
+    branches:
+      - master # Changing the branch here would also work
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.4.6 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "dpost" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          healthcheck: "https://dpost.herokuapp.com/health"
+          checkstring: "ok"
+          delay: 5
