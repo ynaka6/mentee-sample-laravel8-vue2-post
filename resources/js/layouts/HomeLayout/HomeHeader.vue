@@ -22,18 +22,25 @@
                             </div>
                         </div>
                         <div v-else class="flex items-center justify-end">
-                            <router-link
+                            <app-button
+                                tag-name="router-link"
                                 to="/login"
-                                class="hidden lg:inline-block bg-purple-500 text-white text-sm text-center rounded-full px-6 py-1 shadow-lg hover:opacity-50 mr-2"
+                                size="sm"
+                                color="primary"
+                                rounded="full"
+                                class="mr-2"
                             >
                                 Login
-                            </router-link>
-                            <router-link
+                            </app-button>
+                            <app-button
+                                tag-name="router-link"
                                 to="/register"
-                                class="inline-block bg-orange-400 text-white text-sm text-center rounded-full px-6 py-1 shadow-lg hover:opacity-50"
+                                size="sm"
+                                rounded="full"
+                                class="mr-2"
                             >
                                 Register
-                            </router-link>
+                            </app-button>
                         </div>
                     </div>
                 </nav>
@@ -43,7 +50,11 @@
 </template>
 
 <script>
+import AppButton from '../../components/AppButton'
 export default {
+    components: {
+        AppButton,
+    },
     computed: {
         user() {
             return this.$store.getters['auth/user']

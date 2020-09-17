@@ -81,6 +81,12 @@ class PostController extends Controller
      */
     public function transformPost(Post $post): array
     {
-        return $post->getAttributes() + [ 'me' => $post->user->is(Auth::user()) ];
+        return [
+            'id' => $post->id,
+            'user' => $post->user,
+            'message' => $post->message,
+            'created_at' => $post->created_at->format('Y-m-d H:i'),
+            'me' => $post->user->is(Auth::user())
+        ];
     }
 }

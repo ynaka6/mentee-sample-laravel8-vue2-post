@@ -8,13 +8,16 @@
                     :disabled="!loggedIn"
                 />
 
-                <button
+                <app-button
+                    tag-name="button"
                     type="submit"
-                    class="w-full px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150"
+                    size="lg"
+                    rounded="sm"
+                    class="w-full"
                     :disabled="!loggedIn"
                 >
                     投稿
-                </button>
+                </app-button>
             </form>
             <div>
                 <message-card
@@ -32,10 +35,12 @@
 
 <script>
 import axios from 'axios'
+import AppButton from '../components/AppButton'
 import AppTextarea from '../components/AppTextarea.vue'
 import MessageCard from '../components/MessageCard.vue'
 export default {
     components: {
+        AppButton,
         AppTextarea,
         MessageCard,
     },

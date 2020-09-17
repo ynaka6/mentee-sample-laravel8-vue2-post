@@ -2,6 +2,10 @@
     <div
         class="p-3 border rounded shadow hover:shadow-xl"
     >
+        <div class="mb-2">
+            <p class="mb-1">{{ post.user.name }}</p>
+            <div class="px-6 border-b"></div>
+        </div>
         <p class="text-xs text-gray-600">{{ post.created_at }}</p>
         <p>{{ post.message }}</p>
         <div
@@ -10,20 +14,26 @@
         >
             <div></div>
             <div>
-                <button
+                <app-button
                     v-if="post.me"
-                    class="hidden lg:inline-block bg-red-500 text-white text-sm text-center rounded-full px-6 py-1 shadow-lg hover:opacity-50 mr-2"
-                    @click.prevent="onClickDelete"
+                    size="sm"
+                    color="danger"
+                    rounded="full"
+                    @click="onClickDelete"
                 >
                     削除
-                </button>
+                </app-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import AppButton from './AppButton'
 export default {
+    components: {
+        AppButton,
+    },
     props: {
         post: {
             type: Object,
