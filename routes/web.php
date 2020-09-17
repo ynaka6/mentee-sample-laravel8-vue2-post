@@ -13,5 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/health', function() {
+    return response('ok', 200);
+});
 Route::any('/{any}', [\App\Http\Controllers\FrontendController::class, 'app'])
     ->where('any', '^(?!api).*$');
