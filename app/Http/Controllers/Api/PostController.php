@@ -75,7 +75,6 @@ class PostController extends Controller
     /**
      * Postデータの変換処理
      *
-     *
      * @param Post $post
      * @return array
      */

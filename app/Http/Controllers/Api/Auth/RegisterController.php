@@ -9,9 +9,19 @@ use App\Http\Requests\Api\Auth\RegisterRequest;
 
 class RegisterController extends Controller
 {
+    protected $user;
+    
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     public function handle(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
+        if (Auth::check()) {
+            return response('', 400);
+        }
+        $user = $this->user->create($request->validated());
         Auth::login($user);
         return response()->json(compact('user'));
     }
