@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Api\Auth;
 
-use Tests\TestCase;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+        
     private const URL = '/api/login';
 
     /**
@@ -15,7 +17,10 @@ class LoginTest extends TestCase
     public function test_login_パラメータなし()
     {
         $response = $this->json('POST', self::URL);
-        $response->assertStatus(422);
+        $response
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors(['email', 'password'])
+        ;
     }
 
     /**
@@ -26,7 +31,7 @@ class LoginTest extends TestCase
         $user = User::factory()->create();
         $response = $this->json('POST', self::URL, ['email' => $user->email, 'password' => 'test']);
         $response
-            ->assertStatus(422)
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
         ;
     }
 
@@ -38,7 +43,7 @@ class LoginTest extends TestCase
         $user = User::factory()->create();
         $response = $this->actingAs($user)->json('POST', self::URL, ['email' => $user->email, 'password' => 'password']);
         $response
-            ->assertStatus(400)
+            ->assertStatus(Response::HTTP_BAD_REQUEST)
         ;
     }
 
@@ -50,8 +55,10 @@ class LoginTest extends TestCase
         $user = User::factory()->create();
         $response = $this->json('POST', self::URL, ['email' => $user->email, 'password' => 'password']);
         $response
-            ->assertStatus(200)
-            ->assertJsonPath('user.id', $user->id)
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJsonPath('id', $user->id)
+            ->assertJsonPath('name', $user->name)
+            ->assertJsonPath('email', $user->email)
         ;
 
         $this->assertAuthenticatedAs($user);

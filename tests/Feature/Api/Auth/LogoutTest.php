@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Api\Auth;
 
-use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
+
 
 class LogoutTest extends TestCase
 {
+    
     private const URL = '/api/logout';
 
     /**
@@ -19,7 +20,7 @@ class LogoutTest extends TestCase
         $user = User::factory()->create();
         $response = $this->actingAs($user)->json('DELETE', self::URL);
         $response
-            ->assertStatus(200)
+            ->assertStatus(Response::HTTP_OK)
         ;
         $this->assertGuest();
     }

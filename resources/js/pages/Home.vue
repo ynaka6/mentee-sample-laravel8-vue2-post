@@ -46,6 +46,7 @@ export default {
     },
     data() {
         return {
+            next: null,
             posts: [],
             form: {
                 message: null,
@@ -64,7 +65,8 @@ export default {
     methods: {
         async fetchPost() {
             const response = await axios.get('/api/posts')
-            this.posts = [...response.data]
+            this.posts.push(...response.data.posts)
+            this.next = response.data.next
         },
         formState(name) {
             return this.errors && this.errors[name] && 0 < this.errors[name].length

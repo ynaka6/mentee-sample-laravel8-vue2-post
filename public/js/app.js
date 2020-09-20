@@ -2707,6 +2707,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      next: null,
       posts: [],
       form: {
         message: null
@@ -2727,6 +2728,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this$posts;
+
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -2737,9 +2740,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 response = _context.sent;
-                _this.posts = _toConsumableArray(response.data);
 
-              case 4:
+                (_this$posts = _this.posts).push.apply(_this$posts, _toConsumableArray(response.data.posts));
+
+                _this.next = response.data.next;
+
+              case 5:
               case "end":
                 return _context.stop();
             }
