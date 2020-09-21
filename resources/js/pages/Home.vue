@@ -1,33 +1,36 @@
 <template>
     <div class="h-full flex justify-center items-center lg:p-6">
         <div class="w-full max-w-lg">
-            <form class="my-8" @submit.prevent="onSubmit">
-                <app-textarea
-                    v-model="form.message"
-                    :error="formState('message')"
-                    :disabled="!loggedIn"
-                />
-
-                <app-button
-                    tag-name="button"
-                    type="submit"
-                    size="lg"
-                    rounded="sm"
-                    class="w-full"
-                    :disabled="!loggedIn"
-                >
-                    投稿
-                </app-button>
-            </form>
+            <div class="relative">
+                <form class="my-8" @submit.prevent="onSubmit">
+                    <app-title title="「いま」をログに残そう" icon="edit" class="small text-gray-600 mb-2" />
+                    <app-textarea
+                        v-model="form.message"
+                        :error="formState('message')"
+                        :disabled="!loggedIn"
+                    />
+                    <app-button
+                        tag-name="button"
+                        type="submit"
+                        size="lg"
+                        rounded="sm"
+                        class="w-full"
+                        :disabled="!loggedIn"
+                    >
+                        投稿
+                    </app-button>
+                </form>
+            </div>
             <div>
-                <message-card
+                <post-card
                     v-for="post in posts"
                     :key="post.id"
                     :post="post"
                     class="mb-2"
+                    @like="likePost"
                     @delete="deletePost"
                 >
-                </message-card>
+                </post-card>
             </div>
         </div>
     </div>
@@ -36,13 +39,15 @@
 <script>
 import axios from 'axios'
 import AppButton from '../components/AppButton'
+import AppTitle from '../components/AppTitle.vue'
 import AppTextarea from '../components/AppTextarea.vue'
-import MessageCard from '../components/MessageCard.vue'
+import PostCard from '../components/PostCard.vue'
 export default {
     components: {
         AppButton,
+        AppTitle,
         AppTextarea,
-        MessageCard,
+        PostCard,
     },
     data() {
         return {
@@ -87,6 +92,16 @@ export default {
                         this.errors = errors
                     }
                 })
+        },
+        likePost(post) {
+            if (!this.loggedIn) {
+                if (confirm('いいねするにはログインが必要です')) {
+                    this.$router.push('/login')
+                }
+                return
+            }
+
+            // TODO: ログイン処理
         },
         deletePost(post) {
             axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
