@@ -30,4 +30,15 @@ class Post extends Model
     {
         return $query;
     }
+
+    public function paginateByCondition(array $confition)
+    {
+        $sortBy = $confition['sortby'] ?? 'id';
+        $order = $confition['order'] ?? 'desc';
+        return $this->with('user')
+            ->filter($confition)
+            ->orderBy($sortBy, $order)
+            ->paginate()
+        ;
+    }
 }

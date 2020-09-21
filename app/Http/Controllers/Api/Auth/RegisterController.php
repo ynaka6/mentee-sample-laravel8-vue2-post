@@ -23,6 +23,6 @@ class RegisterController extends Controller
         }
         $user = $this->user->create($request->validated());
         Auth::login($user);
-        return response()->json(compact('user'));
+        return response()->json($user);
     }
 }

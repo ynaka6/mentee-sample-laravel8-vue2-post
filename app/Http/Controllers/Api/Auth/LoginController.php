@@ -33,6 +33,6 @@ class LoginController extends Controller
     
         Auth::login($user);
 
-        return response()->json(compact('user'));
+        return response()->json($user);
     }
 }
