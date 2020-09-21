@@ -11,7 +11,7 @@
         <div class="relative rounded-md shadow-sm">
             <textarea
                 class="form-input block w-full pr-10 sm:text-sm sm:leading-5"
-                :class="{ 'border-red-300 text-red-900 placeholder-red-300 border-red-300 shadow-outline-red focus:shadow-outline-red focus:border-red-300': !!error }"
+                :class="{'border-red-300 text-red-900 placeholder-red-300 border-red-300 shadow-outline-red focus:shadow-outline-red focus:border-red-300': !!error, 'cursor-not-allowed': disabled }"
                 :value="value"
                 :disabled="disabled"
                 @input="updateInput"
@@ -24,6 +24,10 @@
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                 </svg>
             </div>
+        </div>
+        <div class="text-gray-500 text-right text-xs my-1">
+            {{ charCount }}
+            charactors
         </div>
         <p v-if="error" class="text-sm text-red-500" v-text="error" />
     </label>
@@ -59,6 +63,11 @@ export default {
         },
     },
     emits: ['input'],
+    computed: {
+        charCount() {
+            return (this.value || '').length
+        },
+    },
     methods: {
         updateInput(event) {
             this.$emit('input', event.currentTarget.value)

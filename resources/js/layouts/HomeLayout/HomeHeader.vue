@@ -6,12 +6,7 @@
                     class="flex items-center justify-between px-2 lg:px-6 py-3"
                 >
                     <div class="flex items-center flex-shrink-0">
-                        <router-link
-                            to="/"
-                            class="text-base xl:text-xl font-bold"
-                        >
-                            logo
-                        </router-link>
+                        <app-logo to="/" />
                     </div>
                     <div class="w-full lg:w-auto mx-0">
                         <div v-if="user" class="flex items-center justify-end">
@@ -51,9 +46,11 @@
 
 <script>
 import AppButton from '../../components/AppButton'
+import AppLogo from '../../components/AppLogo'
 export default {
     components: {
         AppButton,
+        AppLogo,
     },
     computed: {
         user() {

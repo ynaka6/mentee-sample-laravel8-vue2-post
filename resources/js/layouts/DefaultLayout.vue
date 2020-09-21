@@ -9,12 +9,7 @@
                                 class="flex items-center justify-between px-2 lg:px-6 py-3"
                             >
                                 <div class="flex items-center flex-shrink-0">
-                                    <router-link
-                                        to="/"
-                                        class="text-base xl:text-xl font-bold"
-                                    >
-                                        logo
-                                    </router-link>
+                                    <app-logo to="/" />
                                 </div>
                             </nav>
                         </div>
@@ -32,9 +27,11 @@
 </template>
 
 <script>
+import AppLogo from '../components/AppLogo'
 import HomeFooter from './HomeLayout/HomeFooter.vue'
 export default {
     components: {
+        AppLogo,
         HomeFooter,
     },
 }
