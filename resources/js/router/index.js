@@ -30,6 +30,12 @@ const routes = [
         path: '*',
         meta: { layout: 'error', error: 404 },
     },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: Profile,
+        meta: { layout: 'default' },
+    },
 ]
 
 const router = new VueRouter({
