@@ -3,9 +3,8 @@
 name: Schemaspy
 
 on:
-  push:
-    branches:
-      - master # Changing the branch here would also work
+  pull_request:
+    branches: [ master ]
 
 jobs:
   schemaspy:
