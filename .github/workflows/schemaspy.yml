@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Schemaspy
+
+on:
+  push:
+    branches:
+      - master # Changing the branch here would also work
+
+jobs:
+  schemaspy:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_ROOT_PASSWORD: secret
+          TZ: Asia/Tokyo
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Run schemaspy
+      run: |
+        docker run -v "$PWD/docs/schema/output" --net="host" schemaspy/schemaspy:latest -t mysql -host 127.0.0.1:3306 -db ${{MYSQL_DATABASE}} -u root -p ${{MYSQL_ROOT_PASSWORD}} -connprops useSSL\\=false -s ${{MYSQL_DATABASE}}
+
+    - uses: stefanzweifel/git-auto-commit-action@v2.1.0
+      with:
+        commit_message: Generate Schemaspy Docs
+        branch: ${{ github.head_ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
