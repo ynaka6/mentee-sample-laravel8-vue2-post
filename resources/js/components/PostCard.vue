@@ -3,7 +3,11 @@
         class="p-3 border rounded shadow hover:shadow-xl"
     >
         <div class="mb-2">
-            <router-link to="/profile">{{ post.user.name }}</router-link>
+            <router-link 
+            :to="`/profile/${post.user.id}`"
+            >
+            {{ post.user.name }}
+            </router-link>
             <div class="px-6 border-b"></div>
         </div>
         <p class="text-xs text-gray-600">{{ post.created_at }}</p>

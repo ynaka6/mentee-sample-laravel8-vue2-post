@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import Home from '../pages/Home.vue'
+import Profile from '../pages/Profile.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -31,7 +32,7 @@ const routes = [
         meta: { layout: 'error', error: 404 },
     },
     {
-        path: '/profile',
+        path: '/profile/:id',
         name: 'profile',
         component: Profile,
         meta: { layout: 'default' },
