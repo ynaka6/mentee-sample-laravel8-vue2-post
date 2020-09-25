@@ -33,9 +33,12 @@ jobs:
         cp .env.ci .env
         php artisan key:generate
         php artisan migrate:refresh --seed
+    - name: echo dir
+      run: |
+        echo $PWD
     - name: Run schemaspy
       run: |
-        docker run -v "./docs/schema/output" --net="host" schemaspy/schemaspy:latest -t mysql -host $DB_HOST:3306 -db $DB_DATABASE -u $DB_USERNAME -p $DB_PASSWORD -connprops useSSL\\=false -s $DB_DATABASE
+        docker run -v "$PWD/schema:/output" --net="host" schemaspy/schemaspy:latest -t mysql -host $DB_HOST:3306 -db $DB_DATABASE -u $DB_USERNAME -p $DB_PASSWORD -connprops useSSL\\=false -s $DB_DATABASE
       env:
         DB_HOST: 127.0.0.1
         DB_DATABASE: testing
