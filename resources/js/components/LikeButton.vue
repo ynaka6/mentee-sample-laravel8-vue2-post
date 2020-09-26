@@ -1,9 +1,10 @@
 <template>
     <a
+        class="text-red-500"
         @click.prevent="$emit('click')"
     >
         <font-awesome-icon
-            :icon="[(liked ? 'fas' : 'far'), 'heart']"
+            :icon="[(liking ? 'fas' : 'far'), 'heart']"
             class="mr-1"
         />
     </a>
@@ -12,7 +13,7 @@
 <script>
 export default {
     props: {
-        liked: {
+        liking: {
             type: Boolean,
             require: true,
             default: false,

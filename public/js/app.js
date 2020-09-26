@@ -17374,9 +17374,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    liked: {
+    liking: {
       type: Boolean,
       require: true,
       "default": false
@@ -17925,8 +17926,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
 
         return;
-      } // TODO: ログイン処理
+      }
 
+      if (post.liking) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/post/".concat(post.id, "/unlike")).then(function (response) {
+          post.liking = false;
+        });
+      } else {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/post/".concat(post.id, "/like")).then(function (response) {
+          post.liking = true;
+        });
+      }
     },
     deletePost: function deletePost(post) {
       var _this3 = this;
@@ -19800,6 +19810,7 @@ var render = function() {
   return _c(
     "a",
     {
+      staticClass: "text-red-500",
       on: {
         click: function($event) {
           $event.preventDefault()
@@ -19810,7 +19821,7 @@ var render = function() {
     [
       _c("font-awesome-icon", {
         staticClass: "mr-1",
-        attrs: { icon: [_vm.liked ? "fas" : "far", "heart"] }
+        attrs: { icon: [_vm.liking ? "fas" : "far", "heart"] }
       })
     ],
     1
@@ -19859,7 +19870,7 @@ var render = function() {
           "div",
           [
             _c("like-button", {
-              attrs: { liked: false },
+              attrs: { liking: _vm.post.liking },
               on: { click: _vm.onClickLike }
             })
           ],

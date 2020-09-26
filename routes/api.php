@@ -20,4 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('logout', [\App\Http\Controllers\Api\Auth\LogoutController::class, 'handle']);
     Route::post('post', [\App\Http\Controllers\Api\PostController::class, 'store']);
     Route::delete('post/{post}', [\App\Http\Controllers\Api\PostController::class, 'delete'])->middleware('can:delete,post');
+
+    Route::post('post/{post}/like', [\App\Http\Controllers\Api\Post\LikeController::class, 'like']);
+    Route::delete('post/{post}/unlike', [\App\Http\Controllers\Api\Post\LikeController::class, 'unlike']);
+
 });

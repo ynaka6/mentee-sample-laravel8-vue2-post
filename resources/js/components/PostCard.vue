@@ -14,7 +14,7 @@
         >
             <div>
                 <like-button
-                    :liked="false"
+                    :liking="post.liking"
                     @click="onClickLike"
                 />
             </div>

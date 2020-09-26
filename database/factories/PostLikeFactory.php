@@ -4,16 +4,17 @@ namespace Database\Factories;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\PostLike;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostFactory extends Factory
+class PostLikeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Post::class;
+    protected $model = PostLike::class;
 
     /**
      * Define the model's default state.
@@ -24,7 +25,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'message' => $this->faker->text,
+            'post_id' => Post::factory(),
         ];
     }
 }
