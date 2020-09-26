@@ -41,8 +41,8 @@ class Post extends Model
 
     public function scopeFilter(Builder $query, array $filters): Builder
     {
-        return $query->when($filters['hashtag'] ?? null, function($query, $hashtag) {
-            $query->whereHas('hashtags', function($query) use ($hashtag) {
+        return $query->when($filters['hashtag'] ?? null, function ($query, $hashtag) {
+            $query->whereHas('hashtags', function ($query) use ($hashtag) {
                 $query->where('hashtag', $hashtag);
             });
         });
@@ -52,7 +52,7 @@ class Post extends Model
     {
         $model = parent::create($attibutes);
         if ($attibutes['hashtags'] ?? null && is_array($attibutes['hashtags'])) {
-            $model->hashtags = collect($attibutes['hashtags'])->map(function($hashtag) use($model) {
+            $model->hashtags = collect($attibutes['hashtags'])->map(function ($hashtag) use ($model) {
                 return $model->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
             });
         }
