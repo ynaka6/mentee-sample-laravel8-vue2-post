@@ -23,5 +23,4 @@ class Hashtag extends Model
     {
         return $this->belongsToMany(Post::class);
     }
-
 }
