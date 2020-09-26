@@ -7,7 +7,9 @@
             <div class="px-6 border-b"></div>
         </div>
         <p class="text-xs text-gray-600">{{ post.created_at }}</p>
-        <p class="text-sm">{{ post.message }}</p>
+        <p class="text-sm">
+            <hashtag-link :text="post.message" />
+        </p>
         <div
             
             class="mt-2 flex justify-between"
@@ -36,10 +38,12 @@
 <script>
 import AppButton from './AppButton'
 import LikeButton from './LikeButton'
+import HashtagLink from './HashtagLink'
 export default {
     components: {
         AppButton,
         LikeButton,
+        HashtagLink,
     },
     props: {
         post: {

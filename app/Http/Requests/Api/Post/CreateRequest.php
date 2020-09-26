@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Post;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -33,6 +34,7 @@ class CreateRequest extends FormRequest
     {
         $validated = parent::validated();
         $validated['user_id'] = Auth::id();
+        $validated['hashtags'] = Str::hashtags($validated['message'] ?? '');
         return $validated;
     }
 }
