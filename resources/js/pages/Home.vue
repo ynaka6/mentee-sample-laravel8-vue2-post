@@ -100,8 +100,19 @@ export default {
                 }
                 return
             }
-
-            // TODO: ログイン処理
+            if (post.liking) {
+                axios
+                    .delete(`/api/post/${post.id}/unlike`)
+                    .then((response) => {
+                        post.liking = false
+                    })
+            } else {
+                axios
+                    .post(`/api/post/${post.id}/like`)
+                    .then((response) => {
+                        post.liking = true
+                    })
+            }
         },
         deletePost(post) {
             axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
