@@ -28,14 +28,14 @@ const routes = [
         meta: { layout: 'home' },
     },
     {
-        path: '*',
-        meta: { layout: 'error', error: 404 },
-    },
-    {
         path: '/profile/:id',
         name: 'profile',
         component: Profile,
         meta: { layout: 'default' },
+    },
+    {
+        path: '*',
+        meta: { layout: 'error', error: 404 },
     },
 ]
 
