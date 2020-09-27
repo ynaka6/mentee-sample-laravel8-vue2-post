@@ -59,6 +59,16 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * いいねした投稿へのリレーション
+     *
+     * @return HasMany
+     */
+    public function postLikes(): HasMany
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
     public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = bcrypt($value);

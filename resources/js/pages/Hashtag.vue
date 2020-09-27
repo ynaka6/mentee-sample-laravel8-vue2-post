@@ -1,30 +1,22 @@
 <template>
     <div class="h-full flex justify-center items-center lg:p-6">
         <div class="w-full max-w-lg">
-            <div class="relative">
-                <form class="my-8" @submit.prevent="onSubmit">
-                    <app-title title="「いま」をログに残そう" icon="edit" class="small text-gray-600 mb-2" />
-                    <app-textarea
-                        v-model="form.message"
-                        :error="formState('message')"
-                        :disabled="!loggedIn"
-                    />
-                    <app-button
-                        tag-name="button"
-                        type="submit"
+            <div class="flex items-center bg-gray-900 p-4 mb-2">
+                <router-link to="/" class="text-white mr-2">
+                    <font-awesome-icon
+                        :icon="['fas', 'arrow-left']"
+                        class="mr-4"
                         size="lg"
-                        rounded="sm"
-                        class="w-full"
-                        :disabled="!loggedIn"
-                    >
-                        投稿
-                    </app-button>
-                </form>
+                    />
+                </router-link>
+                <div>
+                    <app-title :title="`#${hashtag}`" class="text-white" />
+                </div>
             </div>
             <div>
                 <post-card
-                    v-for="post in posts"
-                    :key="post.id"
+                    v-for="(post, index) in posts"
+                    :key="index"
                     :post="post"
                     class="mb-2"
                     @like="likePost"
@@ -40,23 +32,17 @@
 import axios from 'axios'
 import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
-import AppTextarea from '../components/AppTextarea.vue'
 import PostCard from '../components/PostCard.vue'
 export default {
     components: {
         AppButton,
         AppTitle,
-        AppTextarea,
         PostCard,
     },
     data() {
         return {
-            next: null,
+            hashtag: this.$route.params.hashtag,
             posts: [],
-            form: {
-                message: null,
-            },
-            errors: null,
         }
     },
     computed: {
@@ -69,29 +55,9 @@ export default {
     },
     methods: {
         async fetchPost() {
-            const response = await axios.get('/api/posts')
+            const response = await axios.get('/api/posts', { params: { hashtag: this.hashtag } })
             this.posts.push(...response.data.posts)
             this.next = response.data.next
-        },
-        formState(name) {
-            return this.errors && this.errors[name] && 0 < this.errors[name].length
-                ? this.errors[name][0]
-                : ''
-        },
-        onSubmit() {
-            axios
-                .post('/api/post', this.form)
-                .then((response) => {
-                    this.form.message = null
-                    this.posts = [response.data, ...this.posts]
-                })
-                .catch((err) => {
-                    const response = err.response
-                    const errors = response.data.errors
-                    if (errors) {
-                        this.errors = errors
-                    }
-                })
         },
         likePost(post) {
             if (!this.loggedIn) {
@@ -120,5 +86,12 @@ export default {
             })
         },
     },
+    watch: {
+        $route(to, from) {
+            console.log(to);
+            this.hashtag = to.params.hashtag
+            this.fetchPost()
+        }
+    }
 }
 </script>

@@ -34,6 +34,12 @@ const routes = [
         meta: { layout: 'default' },
     },
     {
+        path: '/hashtag/:hashtag',
+        name: 'hashtag',
+        component: () => import(/* webpackChunkName: "hashtag" */ '../pages/Hashtag.vue'),
+        meta: { layout: 'home' },
+    },
+    {
         path: '*',
         meta: { layout: 'error', error: 404 },
     },
