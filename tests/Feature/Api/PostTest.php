@@ -72,6 +72,22 @@ class PostTest extends TestCase
             ->assertJsonPath('user.name', $user->name)
             ->assertJsonPath('user.email', $user->email)
             ->assertJsonPath('message', $message)
+            ->assertJsonPath('hashtags', [])
+        ;
+    }
+
+    public function test_store_成功_ハッシュタグあり()
+    {
+        $message = 'アイウエオ #ABC #1234 いいい #1234567890';
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->json('POST', self::STORE_URL, [ 'message' => $message ]);
+        $response
+            ->assertStatus(Response::HTTP_CREATED)
+            ->assertJsonPath('user.id', $user->id)
+            ->assertJsonPath('user.name', $user->name)
+            ->assertJsonPath('user.email', $user->email)
+            ->assertJsonPath('message', $message)
+            ->assertJsonPath('hashtags', [ 'ABC', '1234', '1234567890' ])
         ;
     }
 
