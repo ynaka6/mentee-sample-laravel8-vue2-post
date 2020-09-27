@@ -84,6 +84,7 @@ class PostController extends Controller
             'created_at' => $post->created_at->format('Y-m-d H:i'),
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
+            'hashtags' => $post->hashtags->pluck('hashtag'),
         ];
     }
 }
