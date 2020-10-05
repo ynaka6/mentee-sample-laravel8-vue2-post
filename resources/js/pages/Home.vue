@@ -9,6 +9,14 @@
                         :error="formState('message')"
                         :disabled="!loggedIn"
                     />
+                    <external-site-card
+                        v-if="externalSite"
+                        :title="externalSite.title"
+                        :description="externalSite.description"
+                        :image="externalSite.image"
+                        :url="externalSite.url"
+                        class="mb-4"
+                    />
                     <app-button
                         tag-name="button"
                         type="submit"
@@ -41,12 +49,16 @@ import axios from 'axios'
 import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
 import AppTextarea from '../components/AppTextarea.vue'
+import ExternalSiteCard from '../components/ExternalSiteCard.vue'
 import PostCard from '../components/PostCard.vue'
+import { REGEXP_URL } from '../util/const'
+
 export default {
     components: {
         AppButton,
         AppTitle,
         AppTextarea,
+        ExternalSiteCard,
         PostCard,
     },
     data() {
@@ -56,6 +68,7 @@ export default {
             form: {
                 message: null,
             },
+            externalSite: null,
             errors: null,
         }
     },
@@ -63,6 +76,23 @@ export default {
         loggedIn() {
             return this.$store.getters['auth/loggedIn']
         },
+    },
+    watch: {
+        "form.message": function(newVal, oldVal) {
+            if (newVal == oldVal) {
+                return
+            }
+            const url = newVal.match(REGEXP_URL)
+            if (!url || url.length == 0) {
+                this.externalSite = null
+                return
+            }
+
+            if (this.externalSite) {
+                return
+            }
+            this.fetchExternalSiteData(encodeURI(url[0]))
+        }
     },
     created() {
         this.fetchPost()
@@ -72,6 +102,10 @@ export default {
             const response = await axios.get('/api/posts')
             this.posts.push(...response.data.posts)
             this.next = response.data.next
+        },
+        async fetchExternalSiteData(url) {
+            const response = await axios.get('/api/external/crawler', { params: { url } })
+            this.externalSite = response.data
         },
         formState(name) {
             return this.errors && this.errors[name] && 0 < this.errors[name].length
@@ -84,6 +118,7 @@ export default {
                 .then((response) => {
                     this.form.message = null
                     this.posts = [response.data, ...this.posts]
+                    this.externalSite = null
                 })
                 .catch((err) => {
                     const response = err.response

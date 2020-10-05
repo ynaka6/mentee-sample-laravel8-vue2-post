@@ -24,4 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('post/{post}/like', [\App\Http\Controllers\Api\Post\LikeController::class, 'like']);
     Route::delete('post/{post}/unlike', [\App\Http\Controllers\Api\Post\LikeController::class, 'unlike']);
 
+
+    Route::get('external/crawler', [\App\Http\Controllers\Api\ExternalController::class, 'crawler']);
 });

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,11 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function externalSite(): HasOne
+    {
+        return $this->hasOne(PostExternalSite::class);
     }
 
     public function likes(): HasMany
@@ -55,6 +61,9 @@ class Post extends Model
             $model->hashtags = collect($attibutes['hashtags'])->map(function ($hashtag) use ($model) {
                 return $model->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
             });
+        }
+        if ($attibutes['external_site'] ?? null) {
+            $model->externalSite = $model->externalSite()->create($attibutes['external_site']);
         }
         return $model;
     }
