@@ -30,12 +30,10 @@
 
 <script>
 import axios from 'axios'
-import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
 import PostCard from '../components/PostCard.vue'
 export default {
     components: {
-        AppButton,
         AppTitle,
         PostCard,
     },
@@ -48,6 +46,13 @@ export default {
     computed: {
         loggedIn() {
             return this.$store.getters['auth/loggedIn']
+        },
+    },
+    watch: {
+        $route(to, from) {
+            console.log(to)
+            this.hashtag = to.params.hashtag
+            this.fetchPost()
         },
     },
     created() {
@@ -67,17 +72,13 @@ export default {
                 return
             }
             if (post.liking) {
-                axios
-                    .delete(`/api/post/${post.id}/unlike`)
-                    .then((response) => {
-                        post.liking = false
-                    })
+                axios.delete(`/api/post/${post.id}/unlike`).then((response) => {
+                    post.liking = false
+                })
             } else {
-                axios
-                    .post(`/api/post/${post.id}/like`)
-                    .then((response) => {
-                        post.liking = true
-                    })
+                axios.post(`/api/post/${post.id}/like`).then((response) => {
+                    post.liking = true
+                })
             }
         },
         deletePost(post) {
@@ -86,12 +87,5 @@ export default {
             })
         },
     },
-    watch: {
-        $route(to, from) {
-            console.log(to);
-            this.hashtag = to.params.hashtag
-            this.fetchPost()
-        }
-    }
 }
 </script>

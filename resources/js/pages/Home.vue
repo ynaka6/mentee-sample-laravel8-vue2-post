@@ -101,17 +101,13 @@ export default {
                 return
             }
             if (post.liking) {
-                axios
-                    .delete(`/api/post/${post.id}/unlike`)
-                    .then((response) => {
-                        post.liking = false
-                    })
+                axios.delete(`/api/post/${post.id}/unlike`).then((response) => {
+                    post.liking = false
+                })
             } else {
-                axios
-                    .post(`/api/post/${post.id}/like`)
-                    .then((response) => {
-                        post.liking = true
-                    })
+                axios.post(`/api/post/${post.id}/like`).then((response) => {
+                    post.liking = true
+                })
             }
         },
         deletePost(post) {
