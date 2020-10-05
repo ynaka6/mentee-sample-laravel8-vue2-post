@@ -91,6 +91,23 @@ class PostTest extends TestCase
         ;
     }
 
+    public function test_store_成功_URLあり()
+    {
+        $message = 'アイウエオ #ABC #1234 いいい #1234567890 https://yahoo.co.jp';
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->json('POST', self::STORE_URL, [ 'message' => $message ]);
+        $response
+            ->assertStatus(Response::HTTP_CREATED)
+            ->assertJsonPath('user.id', $user->id)
+            ->assertJsonPath('user.name', $user->name)
+            ->assertJsonPath('user.email', $user->email)
+            ->assertJsonPath('message', $message)
+            ->assertJsonPath('hashtags', [ 'ABC', '1234', '1234567890' ])
+            ->assertJsonPath('externalSite.title', 'Yahoo! JAPAN')
+            ->assertJsonPath('externalSite.url', 'https://yahoo.co.jp')
+        ;
+    }
+
     public function test_delete_権限エラー（別ユーザーの削除）()
     {
         $user = User::factory()->create();
