@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { REGEXP_URL, REGEXP_HATHTAG } from "../util/const"
 export default {
     props: {
         text: {
@@ -13,7 +14,7 @@ export default {
     },
     computed: {
         transformed () {
-            const template = this.convertHashTags(this.text);
+            const template = this.convert(this.text);
             return {
                 template: template,
                 props: this.$options.props
@@ -21,9 +22,10 @@ export default {
         }
     },
     methods: {
-        convertHashTags(str) {
-            const spanned = `<span>${str}</span>`
-            return spanned.replace(/#([\u30a0-\u30ff\u3040-\u309f\u3005-\u3006\u30e0-\u9fcf\w]+)/g,'<router-link to="/hashtag/$1" class="text-blue-600">#$1</router-link>')
+        convert(str) {
+            let spanned = `<span>${str}</span>`
+            spanned = spanned.replace(REGEXP_URL, '<a href="$1" target="_blank">$1</a>')
+            return spanned.replace(REGEXP_HATHTAG, '<router-link to="/hashtag/$1" class="text-blue-600">#$1</router-link>')
         }
     },
 }
