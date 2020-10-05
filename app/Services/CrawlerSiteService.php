@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerSiteService
-{    
+{
     public function crawler(string $url)
     {
         $response = Http::get($url);
@@ -67,5 +67,4 @@ class CrawlerSiteService
 
         return null;
     }
-
 }
