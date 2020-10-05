@@ -7,9 +7,17 @@
             <div class="px-6 border-b"></div>
         </div>
         <p class="text-xs text-gray-600">{{ post.created_at }}</p>
-        <p class="text-sm">
-            <hashtag-link :text="post.message" />
+        <p class="text-sm whitespace-pre-line">
+            <convert-link :text="post.message" />
         </p>
+        <external-site-card
+            v-if="post.externalSite"
+            :title="post.externalSite.title"
+            :description="post.externalSite.description"
+            :image="post.externalSite.image"
+            :url="post.externalSite.url"
+            class="my-4"
+        />
         <div
             
             class="mt-2 flex justify-between"
@@ -38,12 +46,14 @@
 <script>
 import AppButton from './AppButton'
 import LikeButton from './LikeButton'
-import HashtagLink from './HashtagLink'
+import ConvertLink from './ConvertLink'
+import ExternalSiteCard from './ExternalSiteCard.vue'
 export default {
     components: {
         AppButton,
         LikeButton,
-        HashtagLink,
+        ConvertLink,
+        ExternalSiteCard,
     },
     props: {
         post: {
