@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
 {
-
     private $service;
 
     public function __construct(CrawlerSiteService $service)

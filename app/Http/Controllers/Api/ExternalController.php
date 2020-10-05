@@ -26,5 +26,4 @@ class ExternalController extends Controller
         $data = $this->service->crawler($request->url);
         return response()->json($data);
     }
-
 }

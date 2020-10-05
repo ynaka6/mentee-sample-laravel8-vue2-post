@@ -49,14 +49,14 @@ class PostController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        return DB::transaction(function() use ($request) {
+        return DB::transaction(function () use ($request) {
             $post = $this->eloquentPost->create($request->validated());
             return response()
                 ->json(
                     $this->transformPost($post),
                     Response::HTTP_CREATED
                 )
-            ; 
+            ;
         });
     }
 
