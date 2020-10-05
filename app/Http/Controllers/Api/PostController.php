@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Api\Post\CreateRequest;
@@ -48,12 +49,15 @@ class PostController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        return response()
-            ->json(
-                $this->transformPost($this->eloquentPost->create($request->validated())),
-                Response::HTTP_CREATED
-            )
-        ;
+        return DB::transaction(function() use ($request) {
+            $post = $this->eloquentPost->create($request->validated());
+            return response()
+                ->json(
+                    $this->transformPost($post),
+                    Response::HTTP_CREATED
+                )
+            ; 
+        });
     }
 
     /**
@@ -67,7 +71,6 @@ class PostController extends Controller
         $post->delete();
         return response('', Response::HTTP_NO_CONTENT);
     }
-
 
     /**
      * Postデータの変換処理
@@ -85,6 +88,7 @@ class PostController extends Controller
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
             'hashtags' => $post->hashtags->pluck('hashtag'),
+            'externalSite' => $post->externalSite ?? null
         ];
     }
 }

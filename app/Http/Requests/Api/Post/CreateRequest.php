@@ -3,11 +3,20 @@
 namespace App\Http\Requests\Api\Post;
 
 use Illuminate\Support\Str;
+use App\Services\CrawlerSiteService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
 {
+
+    private $service;
+
+    public function __construct(CrawlerSiteService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,7 +43,9 @@ class CreateRequest extends FormRequest
     {
         $validated = parent::validated();
         $validated['user_id'] = Auth::id();
-        $validated['hashtags'] = Str::hashtags($validated['message'] ?? '');
+        $validated['hashtags'] = Str::hashtags($validated['message'] ?? '')->toArray();
+        $url = Str::matchUrls($validated['message'] ?? '')->first();
+        $validated['external_site'] =  $url ? $this->service->crawler($url) : null;
         return $validated;
     }
 }
