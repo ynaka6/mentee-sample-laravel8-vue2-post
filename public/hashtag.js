@@ -13,9 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_AppButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AppButton */ "./resources/js/components/AppButton.vue");
-/* harmony import */ var _components_AppTitle_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/AppTitle.vue */ "./resources/js/components/AppTitle.vue");
-/* harmony import */ var _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/PostCard.vue */ "./resources/js/components/PostCard.vue");
+/* harmony import */ var _components_AppTitle_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AppTitle.vue */ "./resources/js/components/AppTitle.vue");
+/* harmony import */ var _components_PostCardList_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/PostCardList.vue */ "./resources/js/components/PostCardList.vue");
 
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -60,29 +59,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    AppButton: _components_AppButton__WEBPACK_IMPORTED_MODULE_2__["default"],
-    AppTitle: _components_AppTitle_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    PostCard: _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    AppTitle: _components_AppTitle_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PostCardList: _components_PostCardList_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
       hashtag: this.$route.params.hashtag,
+      next: null,
       posts: []
     };
   },
   computed: {
     loggedIn: function loggedIn() {
       return this.$store.getters['auth/loggedIn'];
+    }
+  },
+  watch: {
+    $route: function $route(to, from) {
+      this.hashtag = to.params.hashtag;
+      this.next = null;
+      this.posts = [];
+      this.fetchPost();
     }
   },
   created: function created() {
@@ -95,26 +97,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var _this$posts;
 
-        var response;
+        var params, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                params = {
+                  hashtag: _this.hashtag
+                };
+
+                if (_this.next) {
+                  params.maxId = _this.next;
+                }
+
+                _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
-                  params: {
-                    hashtag: _this.hashtag
-                  }
+                  params: params
                 });
 
-              case 2:
+              case 4:
                 response = _context.sent;
 
                 (_this$posts = _this.posts).push.apply(_this$posts, _toConsumableArray(response.data.posts));
 
                 _this.next = response.data.next;
 
-              case 5:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -150,13 +158,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       });
     }
-  },
-  watch: {
-    $route: function $route(to, from) {
-      console.log(to);
-      this.hashtag = to.params.hashtag;
-      this.fetchPost();
-    }
   }
 });
 
@@ -181,50 +182,52 @@ var render = function() {
     "div",
     { staticClass: "h-full flex justify-center items-center lg:p-6" },
     [
-      _c("div", { staticClass: "w-full max-w-lg" }, [
-        _c(
-          "div",
-          { staticClass: "flex items-center bg-gray-900 p-4 mb-2" },
-          [
-            _c(
-              "router-link",
-              { staticClass: "text-white mr-2", attrs: { to: "/" } },
-              [
-                _c("font-awesome-icon", {
-                  staticClass: "mr-4",
-                  attrs: { icon: ["fas", "arrow-left"], size: "lg" }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              [
-                _c("app-title", {
-                  staticClass: "text-white",
-                  attrs: { title: "#" + _vm.hashtag }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          _vm._l(_vm.posts, function(post, index) {
-            return _c("post-card", {
-              key: index,
-              staticClass: "mb-2",
-              attrs: { post: post },
-              on: { like: _vm.likePost, delete: _vm.deletePost }
-            })
-          }),
-          1
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "w-full max-w-lg" },
+        [
+          _c(
+            "div",
+            { staticClass: "flex items-center bg-gray-900 p-4 mb-2" },
+            [
+              _c(
+                "router-link",
+                { staticClass: "text-white mr-2", attrs: { to: "/" } },
+                [
+                  _c("font-awesome-icon", {
+                    staticClass: "mr-4",
+                    attrs: { icon: ["fas", "arrow-left"], size: "lg" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                [
+                  _c("app-title", {
+                    staticClass: "text-white",
+                    attrs: { title: "#" + _vm.hashtag }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("post-card-list", {
+            attrs: {
+              posts: _vm.posts,
+              next: !!_vm.next,
+              handleFetchPost: _vm.fetchPost,
+              handleLikePost: _vm.likePost,
+              handleDeletePost: _vm.deletePost
+            }
+          })
+        ],
+        1
+      )
     ]
   )
 }

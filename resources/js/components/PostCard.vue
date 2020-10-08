@@ -25,7 +25,7 @@
             <div>
                 <like-button
                     :liking="post.liking"
-                    @click="onClickLike"
+                    @click="handleLikePost(post)"
                 />
             </div>
             <div>
@@ -61,15 +61,22 @@ export default {
             require: true,
             default: null,
         },
+        handleLikePost: {
+            type: Function,
+            require: true,
+            default: () => {},
+        },
+        handleDeletePost: {
+            type: Function,
+            require: true,
+            default: () => {},
+        },
     },
     emits: ['like', 'delete'],
     methods: {
-        onClickLike() {
-            this.$emit('like', this.post)
-        },
         onClickDelete() {
             if (confirm('削除してもよろしいですか？')) {
-                this.$emit('delete', this.post)
+                this.handleDeletePost(this.post)
             }
         },
     },

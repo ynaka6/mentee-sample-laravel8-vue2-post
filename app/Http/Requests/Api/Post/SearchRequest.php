@@ -25,7 +25,9 @@ class SearchRequest extends FormRequest
     {
         return [
             // ハッシュタグ
-            'hashtag' => [ 'nullable' ]
+            'hashtag' => [ 'nullable' ],
+            // 最大ID
+            'maxId' => [ 'nullable', 'integer' ]
         ];
     }
 }

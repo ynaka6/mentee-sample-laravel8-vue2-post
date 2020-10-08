@@ -29,17 +29,13 @@
                     </app-button>
                 </form>
             </div>
-            <div>
-                <post-card
-                    v-for="post in posts"
-                    :key="post.id"
-                    :post="post"
-                    class="mb-2"
-                    @like="likePost"
-                    @delete="deletePost"
-                >
-                </post-card>
-            </div>
+            <post-card-list
+                :posts="posts"
+                :next="!!next"
+                :handle-fetch-post="fetchPost"
+                :handle-like-post="likePost"
+                :handle-delete-post="deletePost"
+            />
         </div>
     </div>
 </template>
@@ -50,7 +46,7 @@ import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
 import AppTextarea from '../components/AppTextarea.vue'
 import ExternalSiteCard from '../components/ExternalSiteCard.vue'
-import PostCard from '../components/PostCard.vue'
+import PostCardList from '../components/PostCardList.vue'
 import { REGEXP_URL } from '../util/const'
 
 export default {
@@ -59,7 +55,7 @@ export default {
         AppTitle,
         AppTextarea,
         ExternalSiteCard,
-        PostCard,
+        PostCardList,
     },
     data() {
         return {
@@ -78,8 +74,8 @@ export default {
         },
     },
     watch: {
-        "form.message": function(newVal, oldVal) {
-            if (newVal == oldVal) {
+        'form.message': function (newVal, oldVal) {
+            if (!newVal || newVal == oldVal) {
                 return
             }
             const url = newVal.match(REGEXP_URL)
@@ -92,14 +88,18 @@ export default {
                 return
             }
             this.fetchExternalSiteData(encodeURI(url[0]))
-        }
+        },
     },
     created() {
         this.fetchPost()
     },
     methods: {
         async fetchPost() {
-            const response = await axios.get('/api/posts')
+            const params = {}
+            if (this.next) {
+                params.maxId = this.next
+            }
+            const response = await axios.get('/api/posts', { params })
             this.posts.push(...response.data.posts)
             this.next = response.data.next
         },
@@ -136,17 +136,13 @@ export default {
                 return
             }
             if (post.liking) {
-                axios
-                    .delete(`/api/post/${post.id}/unlike`)
-                    .then((response) => {
-                        post.liking = false
-                    })
+                axios.delete(`/api/post/${post.id}/unlike`).then((response) => {
+                    post.liking = false
+                })
             } else {
-                axios
-                    .post(`/api/post/${post.id}/like`)
-                    .then((response) => {
-                        post.liking = true
-                    })
+                axios.post(`/api/post/${post.id}/like`).then((response) => {
+                    post.liking = true
+                })
             }
         },
         deletePost(post) {

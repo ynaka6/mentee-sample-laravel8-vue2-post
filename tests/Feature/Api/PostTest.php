@@ -25,7 +25,7 @@ class PostTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(2)
-            ->assertJsonPath('next', url('/api/posts?page=2'))
+            ->assertJsonPath('next', $posts->reverse()->forPage(2, 15)->first()->id)
             ->assertJsonPath('posts.*.me', collect(range(1, 15))->map(function() { return false; })->toArray())
             ->assertJsonPath('posts.*.liking', collect(range(1, 15))->map(function() { return false; })->toArray())
             ->assertJsonPath('posts.*.id', $posts->reverse()->slice(0, 15)->map(function($p) { return $p->id; })->values()->all())
@@ -44,7 +44,7 @@ class PostTest extends TestCase
         $response
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(2)
-            ->assertJsonPath('next', url('/api/posts?page=2'))
+            ->assertJsonPath('next', $posts->reverse()->forPage(2, 15)->first()->id)
             ->assertJsonPath('posts.*.me', [true] + collect(range(1, 15))->map(function() { return false; })->toArray())
             ->assertJsonPath('posts.*.liking', [true] + collect(range(1, 15))->map(function() { return false; })->toArray())
             ->assertJsonPath('posts.*.id', $posts->reverse()->slice(0, 15)->map(function($p) { return $p->id; })->values()->all())
