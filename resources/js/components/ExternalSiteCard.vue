@@ -19,11 +19,7 @@
 </template>
 
 <script>
-import AppButton from './AppButton'
 export default {
-    components: {
-        AppButton,
-    },
     props: {
         title: {
             type: String,

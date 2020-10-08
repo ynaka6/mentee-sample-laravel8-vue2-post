@@ -32,9 +32,9 @@
             <post-card-list
                 :posts="posts"
                 :next="!!next"
-                :handleFetchPost="fetchPost"
-                :handleLikePost="likePost"
-                :handleDeletePost="deletePost"
+                :handle-fetch-post="fetchPost"
+                :handle-like-post="likePost"
+                :handle-delete-post="deletePost"
             />
         </div>
     </div>
@@ -42,7 +42,6 @@
 
 <script>
 import axios from 'axios'
-import Intersect from 'vue-intersect'
 import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
 import AppTextarea from '../components/AppTextarea.vue'
@@ -56,7 +55,6 @@ export default {
         AppTitle,
         AppTextarea,
         ExternalSiteCard,
-        Intersect,
         PostCardList,
     },
     data() {
