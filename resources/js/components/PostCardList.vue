@@ -4,8 +4,8 @@
             v-for="post in posts"
             :key="post.id"
             :post="post"
-            :handleLikePost="handleLikePost"
-            :handleDeletePost="handleDeletePost"
+            :handle-like-post="handleLikePost"
+            :handle-delete-post="handleDeletePost"
             class="mb-2"
         >
         </post-card>
@@ -28,7 +28,7 @@ export default {
         posts: {
             type: Array,
             require: true,
-            default: [],
+            default: () => [],
         },
         next: {
             type: Boolean,
@@ -38,15 +38,18 @@ export default {
         handleFetchPost: {
             type: Function,
             require: true,
+            default: () => {},
         },
         handleLikePost: {
             type: Function,
             require: true,
+            default: () => {},
         },
         handleDeletePost: {
             type: Function,
             require: true,
-        }
-    }
+            default: () => {},
+        },
+    },
 }
 </script>

@@ -64,11 +64,13 @@ export default {
         handleLikePost: {
             type: Function,
             require: true,
+            default: () => {},
         },
         handleDeletePost: {
             type: Function,
             require: true,
-        }
+            default: () => {},
+        },
     },
     emits: ['like', 'delete'],
     methods: {

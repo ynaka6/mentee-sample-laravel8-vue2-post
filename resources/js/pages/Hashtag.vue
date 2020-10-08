@@ -16,9 +16,9 @@
             <post-card-list
                 :posts="posts"
                 :next="!!next"
-                :handleFetchPost="fetchPost"
-                :handleLikePost="likePost"
-                :handleDeletePost="deletePost"
+                :handle-fetch-post="fetchPost"
+                :handle-like-post="likePost"
+                :handle-delete-post="deletePost"
             />
         </div>
     </div>
