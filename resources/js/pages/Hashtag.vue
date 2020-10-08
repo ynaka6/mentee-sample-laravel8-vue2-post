@@ -13,17 +13,13 @@
                     <app-title :title="`#${hashtag}`" class="text-white" />
                 </div>
             </div>
-            <div>
-                <post-card
-                    v-for="(post, index) in posts"
-                    :key="index"
-                    :post="post"
-                    class="mb-2"
-                    @like="likePost"
-                    @delete="deletePost"
-                >
-                </post-card>
-            </div>
+            <post-card-list
+                :posts="posts"
+                :next="!!next"
+                :handleFetchPost="fetchPost"
+                :handleLikePost="likePost"
+                :handleDeletePost="deletePost"
+            />
         </div>
     </div>
 </template>
@@ -31,15 +27,16 @@
 <script>
 import axios from 'axios'
 import AppTitle from '../components/AppTitle.vue'
-import PostCard from '../components/PostCard.vue'
+import PostCardList from '../components/PostCardList.vue'
 export default {
     components: {
         AppTitle,
-        PostCard,
+        PostCardList,
     },
     data() {
         return {
             hashtag: this.$route.params.hashtag,
+            next: null,
             posts: [],
         }
     },
@@ -50,8 +47,9 @@ export default {
     },
     watch: {
         $route(to, from) {
-            console.log(to)
             this.hashtag = to.params.hashtag
+            this.next = null
+            this.posts = []
             this.fetchPost()
         },
     },
@@ -60,7 +58,11 @@ export default {
     },
     methods: {
         async fetchPost() {
-            const response = await axios.get('/api/posts', { params: { hashtag: this.hashtag } })
+            const params = { hashtag: this.hashtag }
+            if (this.next) {
+                params.maxId = this.next
+            }
+            const response = await axios.get('/api/posts', { params })
             this.posts.push(...response.data.posts)
             this.next = response.data.next
         },

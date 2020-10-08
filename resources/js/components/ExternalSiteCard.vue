@@ -44,7 +44,7 @@ export default {
             type: String,
             require: false,
             default: null,
-        }
+        },
     },
     data() {
         return {
