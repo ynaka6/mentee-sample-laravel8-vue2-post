@@ -32,11 +32,11 @@ class PostController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $patinate = $this->eloquentPost->paginateByCondition($request->validated());
+        $data = $this->eloquentPost->searchByCondition($request->validated());
         return response()
             ->json([
-                'next' => $patinate->nextPageUrl(),
-                'posts' => $patinate->transform([$this, 'transformPost'])
+                'next' => $data->next,
+                'posts' => $data->items->transform([$this, 'transformPost'])
             ])
         ;
     }

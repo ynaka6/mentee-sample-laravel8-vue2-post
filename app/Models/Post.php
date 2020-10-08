@@ -47,11 +47,16 @@ class Post extends Model
 
     public function scopeFilter(Builder $query, array $filters): Builder
     {
-        return $query->when($filters['hashtag'] ?? null, function ($query, $hashtag) {
-            $query->whereHas('hashtags', function ($query) use ($hashtag) {
-                $query->where('hashtag', $hashtag);
-            });
-        });
+        return $query
+            ->when($filters['hashtag'] ?? null, function ($query, $hashtag) {
+                $query->whereHas('hashtags', function ($query) use ($hashtag) {
+                    $query->where('hashtag', $hashtag);
+                });
+            })
+            ->when($filters['maxId'] ?? null, function ($query, $maxId) {
+                $query->where('id', '<=', $maxId);
+            })
+        ;
     }
 
     public function create(array $attibutes): self
@@ -66,6 +71,23 @@ class Post extends Model
             $model->externalSite = $model->externalSite()->create($attibutes['external_site']);
         }
         return $model;
+    }
+
+    public function searchByCondition(array $condition): object
+    {
+        $items = $this->with('user')
+            ->filter($condition)
+            ->orderBy('id', 'desc')
+            ->limit($this->perPage + 1)
+            ->get()
+        ;
+
+        $next = null;
+        if ($items->count() === $this->perPage + 1) {
+            $model = $items->pop();
+            $next = $model->id;
+        }
+        return (object) compact('items', 'next');
     }
 
     /**
