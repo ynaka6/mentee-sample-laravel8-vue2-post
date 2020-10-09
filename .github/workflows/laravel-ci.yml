@@ -28,15 +28,15 @@ jobs:
       with:
         fetch-depth: 1
 
-    - name: PHPStan
-      uses: docker://oskarstark/phpstan-ga
-      with:
-        args: analyse
-    - name: Psalm
-      uses: docker://vimeo/psalm-github-actions
     - name: Install composer dependencies
       run: |
         composer install --no-scripts
+    - name: PHPStan
+      run: |
+        ./vendor/bin/phpstan analyse
+    - name: Psalm
+      run: |
+        ./vendor/bin/psalm
     - name: Prepare Laravel Application
       run: |
         cp .env.ci .env
