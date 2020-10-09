@@ -1,5 +1,5 @@
 <template>
-    <label class="block mb-4">
+    <label class="block mb-1">
         <span
             v-if="label"
             class="font-bold text-xs text-gray-600"
@@ -25,11 +25,7 @@
                 </svg>
             </div>
         </div>
-        <div class="text-gray-500 text-right text-xs my-1">
-            {{ charCount }}
-            charactors
-        </div>
-        <p v-if="error" class="text-sm text-red-500" v-text="error" />
+        <p v-if="error" class="mt-1 text-sm text-red-500" v-text="error" />
     </label>
 </template>
 
@@ -63,11 +59,6 @@ export default {
         },
     },
     emits: ['input'],
-    computed: {
-        charCount() {
-            return (this.value || '').length
-        },
-    },
     methods: {
         updateInput(event) {
             this.$emit('input', event.currentTarget.value)

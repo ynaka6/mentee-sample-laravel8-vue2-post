@@ -88,7 +88,8 @@ class PostController extends Controller
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
             'hashtags' => $post->hashtags->pluck('hashtag'),
-            'externalSite' => $post->externalSite ?? null
+            'externalSite' => $post->externalSite ?? null,
+            'images' => $post->images->pluck('url')
         ];
     }
 }
