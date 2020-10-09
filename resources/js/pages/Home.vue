@@ -9,13 +9,42 @@
                         :error="formState('message')"
                         :disabled="!loggedIn"
                     />
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <a
+                                href="#"
+                                class="text-gray-800 opacity-75"
+                                @click.prevent="$refs.file.click()"
+                            >
+                                <font-awesome-icon
+                                    :icon="['far', 'images']"
+                                />
+                            </a>
+                            <input ref="file" type="file" class="w-0 opacity-0" multiple @change="previewImages" />
+                        </div>
+                        <text-length-counter :text="form.message" />
+                    </div>
+                    <post-image-list v-if="form.images.length" :images="form.images" class="mb-1" />
+                    <div v-if="form.images.length" class="mb-2">
+                        <a
+                            v-if="form.images.length"
+                            href="#"
+                            class="font-bold text-red-500 text-xs"
+                            @click.prevent="clearImages"
+                        >
+                            <font-awesome-icon
+                                :icon="['far', 'trash-alt']"
+                                class="mr-1"
+                            />
+                            画像を全て削除する
+                        </a>
+                    </div>
                     <external-site-card
                         v-if="externalSite"
                         :title="externalSite.title"
                         :description="externalSite.description"
                         :image="externalSite.image"
                         :url="externalSite.url"
-                        class="mb-4"
                     />
                     <app-button
                         tag-name="button"
@@ -47,6 +76,8 @@ import AppTitle from '../components/AppTitle.vue'
 import AppTextarea from '../components/AppTextarea.vue'
 import ExternalSiteCard from '../components/ExternalSiteCard.vue'
 import PostCardList from '../components/PostCardList.vue'
+import PostImageList from '../components/PostImageList.vue'
+import TextLengthCounter from '../components/TextLengthCounter.vue'
 import { REGEXP_URL } from '../util/const'
 
 export default {
@@ -56,6 +87,8 @@ export default {
         AppTextarea,
         ExternalSiteCard,
         PostCardList,
+        PostImageList,
+        TextLengthCounter,
     },
     data() {
         return {
@@ -63,6 +96,7 @@ export default {
             posts: [],
             form: {
                 message: null,
+                images: [],
             },
             externalSite: null,
             errors: null,
@@ -107,18 +141,50 @@ export default {
             const response = await axios.get('/api/external/crawler', { params: { url } })
             this.externalSite = response.data
         },
+        previewImages(event) {
+            this.form.images = []
+            if (event.target.files.length > 4) {
+                alert('画像は4つまでアップロードすることが可能です。')
+                this.$refs.file.value = null
+                return
+            }
+            Array.from(event.target.files).forEach((file) => {
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    this.form.images.push(e.target.result)
+                }
+                reader.readAsDataURL(file)
+            })
+        },
+        clearImages() {
+            this.$refs.file.value = null
+            this.form.images = []
+        },
         formState(name) {
             return this.errors && this.errors[name] && 0 < this.errors[name].length
                 ? this.errors[name][0]
                 : ''
         },
         onSubmit() {
+            let formData = new FormData()
+            if (this.form.message) {
+                formData.append('message', this.form.message)
+            }
+            Array.from(this.$refs.file.files).forEach((file, index) => {
+                formData.append('images[' + index + ']', file)
+            })
             axios
-                .post('/api/post', this.form)
+                .post('/api/post', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                 .then((response) => {
                     this.form.message = null
                     this.posts = [response.data, ...this.posts]
                     this.externalSite = null
+                    this.form.images = []
+                    this.$refs.file.value = null
                 })
                 .catch((err) => {
                     const response = err.response

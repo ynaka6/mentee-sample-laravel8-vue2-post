@@ -35,6 +35,11 @@ class Post extends Model
         return $this->hasOne(PostExternalSite::class);
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(PostImage::class);
+    }
+
     public function likes(): HasMany
     {
         return $this->hasMany(PostLike::class);
@@ -59,6 +64,12 @@ class Post extends Model
         ;
     }
 
+    /**
+     * 登録処理
+     *
+     * @param array $attibutes
+     * @return self
+     */
     public function create(array $attibutes): self
     {
         $this->fill($attibutes)->save();
@@ -70,9 +81,20 @@ class Post extends Model
         if ($attibutes['external_site'] ?? null) {
             $this->externalSite()->create($attibutes['external_site']);
         }
+        if (($attibutes['images'] ?? null) && is_array($attibutes['images'])) {
+            collect($attibutes['images'])->map(function ($filepath) {
+                return $this->images()->create(compact('filepath'));
+            });
+        }
         return $this->fresh();
     }
 
+    /**
+     * 検索処理
+     *
+     * @param array $condition
+     * @return object
+     */
     public function searchByCondition(array $condition): object
     {
         $items = $this->with('user')

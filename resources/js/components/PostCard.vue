@@ -10,6 +10,11 @@
         <p class="text-sm whitespace-pre-line">
             <convert-link :text="post.message" />
         </p>
+        <post-image-list
+            v-if="post.images.length"
+            :images="post.images"
+            class="my-2"
+        />
         <external-site-card
             v-if="post.externalSite"
             :title="post.externalSite.title"
@@ -48,12 +53,14 @@ import AppButton from './AppButton'
 import LikeButton from './LikeButton'
 import ConvertLink from './ConvertLink'
 import ExternalSiteCard from './ExternalSiteCard.vue'
+import PostImageList from '../components/PostImageList.vue'
 export default {
     components: {
         AppButton,
         LikeButton,
         ConvertLink,
         ExternalSiteCard,
+        PostImageList,
     },
     props: {
         post: {
