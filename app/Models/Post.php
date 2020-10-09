@@ -61,16 +61,16 @@ class Post extends Model
 
     public function create(array $attibutes): self
     {
-        $model = parent::create($attibutes);
-        if ($attibutes['hashtags'] ?? null && is_array($attibutes['hashtags'])) {
-            $model->hashtags = collect($attibutes['hashtags'])->map(function ($hashtag) use ($model) {
-                return $model->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
+        $this->fill($attibutes)->save();
+        if (($attibutes['hashtags'] ?? null) && is_array($attibutes['hashtags'])) {
+            collect($attibutes['hashtags'])->map(function ($hashtag) {
+                return $this->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
             });
         }
         if ($attibutes['external_site'] ?? null) {
-            $model->externalSite = $model->externalSite()->create($attibutes['external_site']);
+            $this->externalSite()->create($attibutes['external_site']);
         }
-        return $model;
+        return $this->fresh();
     }
 
     public function searchByCondition(array $condition): object

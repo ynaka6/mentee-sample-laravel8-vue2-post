@@ -9,6 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LikeController extends Controller
 {
+
+    /**
+     * いいね
+     *
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function like(Post $post)
     {
         return response()
@@ -19,6 +26,12 @@ class LikeController extends Controller
         ;
     }
 
+    /**
+     * いいね解除
+     *
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unlike(Post $post)
     {
         return response()
