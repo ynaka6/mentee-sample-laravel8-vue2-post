@@ -24,10 +24,16 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
 
+    - name: PHPStan
+      uses: docker://oskarstark/phpstan-ga
+      with:
+        args: analyse
+    - name: Psalm
+      uses: docker://vimeo/psalm-github-actions
     - name: Install composer dependencies
       run: |
         composer install --no-scripts
