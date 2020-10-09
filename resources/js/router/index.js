@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import Home from '../pages/Home.vue'
+import Profile from '../pages/Profile.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -25,6 +26,12 @@ const routes = [
         name: 'home',
         component: Home,
         meta: { layout: 'home' },
+    },
+    {
+        path: '/profile/:id',
+        name: 'profile',
+        component: Profile,
+        meta: { layout: 'default' },
     },
     {
         path: '/hashtag/:hashtag',

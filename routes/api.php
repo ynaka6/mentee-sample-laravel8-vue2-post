@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'handle']);
 Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'handle']);
 Route::get('posts', [\App\Http\Controllers\Api\PostController::class, 'index']);
+Route::get('user/{user}', [\App\Http\Controllers\Api\UserController::class, 'show']);
 Route::group(['middleware' => 'auth'], function () {
     Route::delete('logout', [\App\Http\Controllers\Api\Auth\LogoutController::class, 'handle']);
     Route::post('post', [\App\Http\Controllers\Api\PostController::class, 'store']);
