@@ -9,7 +9,7 @@ class LogoutController extends Controller
 {
     public function handle()
     {
-        Auth::logout(Auth::user());
+        Auth::logout();
         return response('', 200);
     }
 }
