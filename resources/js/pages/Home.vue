@@ -12,6 +12,7 @@
                     <div class="flex justify-between items-center mb-2">
                         <div>
                             <a
+                                v-if="loggedIn"
                                 href="#"
                                 class="text-gray-800 opacity-75"
                                 @click.prevent="$refs.file.click()"
@@ -166,6 +167,9 @@ export default {
                 : ''
         },
         onSubmit() {
+            if (!this.loggedIn) {
+                return
+            }
             let formData = new FormData()
             if (this.form.message) {
                 formData.append('message', this.form.message)
