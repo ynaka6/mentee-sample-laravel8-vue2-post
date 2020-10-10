@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,6 +33,9 @@ class PostImage extends Model
 
     public function getUrlAttribute(): ?string
     {
-        return $this->filepath ? Storage::url($this->filepath) : null;
+        if (empty($this->filepath)) {
+            return null;
+        }
+        return Str::startsWith($this->filepath, 'http') ? $this->filepath : Storage::url($this->filepath);
     }
 }
