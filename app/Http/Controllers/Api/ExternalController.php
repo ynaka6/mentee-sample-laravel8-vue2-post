@@ -15,12 +15,7 @@ class ExternalController extends Controller
         $this->service = $service;
     }
 
-    /**
-     * 外部サイトの情報を取得します
-     *
-     * @param Request $request
-     * @return void
-     */
+
     public function crawler(Request $request)
     {
         $data = $this->service->crawler($request->url);

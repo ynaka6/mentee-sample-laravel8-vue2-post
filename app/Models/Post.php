@@ -35,6 +35,11 @@ class Post extends Model
         return $this->hasOne(PostExternalSite::class);
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(PostImage::class);
+    }
+
     public function likes(): HasMany
     {
         return $this->hasMany(PostLike::class);
@@ -59,20 +64,37 @@ class Post extends Model
         ;
     }
 
+    /**
+     * 登録処理
+     *
+     * @param array $attibutes
+     * @return self
+     */
     public function create(array $attibutes): self
     {
-        $model = parent::create($attibutes);
-        if ($attibutes['hashtags'] ?? null && is_array($attibutes['hashtags'])) {
-            $model->hashtags = collect($attibutes['hashtags'])->map(function ($hashtag) use ($model) {
-                return $model->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
+        $this->fill($attibutes)->save();
+        if (($attibutes['hashtags'] ?? null) && is_array($attibutes['hashtags'])) {
+            collect($attibutes['hashtags'])->map(function ($hashtag) {
+                return $this->hashtags()->save(Hashtag::firstOrCreate(compact('hashtag')));
             });
         }
         if ($attibutes['external_site'] ?? null) {
-            $model->externalSite = $model->externalSite()->create($attibutes['external_site']);
+            $this->externalSite()->create($attibutes['external_site']);
         }
-        return $model;
+        if (($attibutes['images'] ?? null) && is_array($attibutes['images'])) {
+            collect($attibutes['images'])->map(function ($filepath) {
+                return $this->images()->create(compact('filepath'));
+            });
+        }
+        return $this->fresh();
     }
 
+    /**
+     * 検索処理
+     *
+     * @param array $condition
+     * @return object
+     */
     public function searchByCondition(array $condition): object
     {
         $items = $this->with('user')

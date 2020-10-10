@@ -28,7 +28,7 @@ class PostController extends Controller
      * 投稿一覧取得
      *
      * @param SearchRequest $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(SearchRequest $request)
     {
@@ -45,7 +45,7 @@ class PostController extends Controller
      * 投稿登録処理
      *
      * @param CreateRequest $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateRequest $request)
     {
@@ -64,7 +64,7 @@ class PostController extends Controller
      * 投稿削除
      *
      * @param Post $post
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function delete(Post $post)
     {
@@ -88,7 +88,8 @@ class PostController extends Controller
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
             'hashtags' => $post->hashtags->pluck('hashtag'),
-            'externalSite' => $post->externalSite ?? null
+            'externalSite' => $post->externalSite ?? null,
+            'images' => $post->images->pluck('url')
         ];
     }
 }

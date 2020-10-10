@@ -34,7 +34,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => [ 'required', 'string', 'min:2', 'max:3000' ]
+            'message' => [ 'required', 'string', 'min:2', 'max:3000' ],
+            'images.*' => ['nullable', 'image', 'max:8192', 'mimes:jpeg,jpg,png,gif']
         ];
     }
 
@@ -44,7 +45,15 @@ class CreateRequest extends FormRequest
         $validated['user_id'] = Auth::id();
         $validated['hashtags'] = Str::hashtags($validated['message'] ?? '')->toArray();
         $url = Str::matchUrls($validated['message'] ?? '')->first();
-        $validated['external_site'] =  $url ? $this->service->crawler($url) : null;
+        $validated['external_site'] = $url ? $this->service->crawler($url) : null;
+        $validated['images'] = collect($validated['images'] ?? [])
+            ->map(function ($image) {
+                return config('cloudinary.cloud_url')
+                    ? optional($image->storeOnCloudinary('post/images'))->getSecurePath()
+                    : $image->store('post/images');
+            })->toArray()
+        ;
+        
         return $validated;
     }
 }
