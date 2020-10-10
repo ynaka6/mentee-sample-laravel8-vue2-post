@@ -47,7 +47,7 @@ class CreateRequest extends FormRequest
         $url = Str::matchUrls($validated['message'] ?? '')->first();
         $validated['external_site'] = $url ? $this->service->crawler($url) : null;
         $validated['images'] = collect($validated['images'] ?? [])
-            ->map(function($image) {
+            ->map(function ($image) {
                 return config('cloudinary.cloud_url')
                     ? optional($image->storeOnCloudinary('post/images'))->getSecurePath()
                     : $image->store('post/images');
