@@ -29,7 +29,7 @@ const routes = [
     {
         path: '/hashtag/:hashtag',
         name: 'hashtag',
-        component: () => import(/* webpackChunkName: "hashtag" */ '../pages/Hashtag.vue'),
+        component: () => import(/* webpackChunkName: "js/hashtag" */ '../pages/Hashtag.vue'),
         meta: { layout: 'home' },
     },
     {
