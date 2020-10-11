@@ -5,6 +5,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import PortalVue from 'portal-vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -12,6 +13,8 @@ import store from './store'
 import DefaultLayout from './layouts/DefaultLayout.vue'
 import ErrorLayout from './layouts/ErrorLayout.vue'
 import HomeLayout from './layouts/HomeLayout.vue'
+
+Vue.use(PortalVue)
 
 Vue.use(VueMeta, {
     refreshOnceOnNavigation: true,
