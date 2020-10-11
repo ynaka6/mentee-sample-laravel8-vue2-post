@@ -55,7 +55,7 @@ export default {
             require: false,
             default: 'brand',
             validator: function (value) {
-                return !value || ['success', 'danger', 'primary', 'brand'].indexOf(value) !== -1
+                return !value || ['success', 'danger', 'primary', 'brand', 'default'].indexOf(value) !== -1
             },
         },
         rounded: {
@@ -108,6 +108,9 @@ export default {
 }
 .button-brand {
     @apply bg-orange-400;
+}
+.button-default {
+    @apply bg-gray-500;
 }
 
 .button:disabled {
