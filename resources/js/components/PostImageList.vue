@@ -8,13 +8,24 @@
             <div
                 class="border h-full w-full bg-gray-100 bg-center bg-cover"
                 :style="{ backgroundImage: `url('${image}')` }"
+                @click.prevent="selectImage = image"
             />
         </div>
+        <portal to="modal">
+            <app-modal v-if="selectImage" :handleCloseModal="handleCloseModal">
+                <img :src="selectImage" class="w-full" />
+            </app-modal>
+        </portal>
     </div>
 </template>
 
 <script>
+import AppModal from './AppModal.vue'
+
 export default {
+    components: {
+        AppModal
+    },
     props: {
         images: {
             type: Array,
@@ -22,5 +33,15 @@ export default {
             default: () => [],
         },
     },
+    data() {
+        return {
+            selectImage: null
+        }
+    },
+    methods: {
+        handleCloseModal() {
+            this.selectImage = null
+        }
+    }
 }
 </script>

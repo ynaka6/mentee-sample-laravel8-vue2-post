@@ -13,7 +13,7 @@
                 <home-footer />
             </div>
         </div>
-        <router-view name="modal"></router-view>
+        <portal-target name="modal"></portal-target>
     </div>
 </template>
 
