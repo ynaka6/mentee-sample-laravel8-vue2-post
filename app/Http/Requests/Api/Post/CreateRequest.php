@@ -33,10 +33,19 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'message' => [ 'required', 'string', 'min:2', 'max:3000' ],
             'images.*' => ['nullable', 'image', 'max:8192', 'mimes:jpeg,jpg,png,gif']
         ];
+
+        if ($this->product) {
+            $rules += [
+                'product.price' => [ 'required', 'integer' ],
+                'product.payment_count' => [ 'nullable', 'integer' ]
+            ];
+        }
+
+        return $rules;
     }
 
     public function validated()
@@ -53,7 +62,7 @@ class CreateRequest extends FormRequest
                     : $image->store('post/images');
             })->toArray()
         ;
-        
+                
         return $validated;
     }
 }

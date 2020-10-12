@@ -10,6 +10,25 @@
         <p class="text-sm whitespace-pre-line">
             <convert-link :text="post.message" />
         </p>
+        <div
+            v-if="post.product"
+        >
+            <div class="flex justify-between items-center mt-6">
+                <div>
+                    <p class="font-bold text-3xl">{{ post.product.price }}円</p>
+                </div>
+                <div>
+                    <app-button
+                        v-if="post.me"
+                        rounded="full"
+                        @click="onClickDelete"
+                    >
+                        購入
+                    </app-button>
+                </div>
+            </div>
+            <div class="border-b mx-auto w-1/6 my-4" />
+        </div>
         <post-image-list
             v-if="post.images.length"
             :images="post.images"
@@ -25,7 +44,7 @@
         />
         <div
             
-            class="mt-2 flex justify-between"
+            class="mt-2 flex justify-between items-center"
         >
             <div>
                 <like-button
@@ -38,10 +57,12 @@
                     v-if="post.me"
                     size="sm"
                     color="danger"
-                    rounded="full"
+                    rounded="circle"
                     @click="onClickDelete"
                 >
-                    削除
+                    <font-awesome-icon
+                        :icon="['far', 'trash-alt']"
+                    />
                 </app-button>
             </div>
         </div>
