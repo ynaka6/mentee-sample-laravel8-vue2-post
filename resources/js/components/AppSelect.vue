@@ -1,5 +1,5 @@
 <template>
-    <label class="block mb-1">
+    <label class="block mb-4">
         <span
             v-if="label"
             class="font-bold text-xs text-gray-600"
@@ -9,14 +9,21 @@
             <sup v-show="required" class="text-red-500">*</sup>
         </span>
         <div class="relative rounded-md shadow-sm">
-            <textarea
+            <select
                 class="form-input block w-full pr-10 sm:text-sm sm:leading-5"
-                :class="{'border-red-300 text-red-900 placeholder-red-300 border-red-300 shadow-outline-red focus:shadow-outline-red focus:border-red-300': !!error, 'cursor-not-allowed': disabled }"
+                :class="{ 'border-red-300 text-red-900 placeholder-red-300 border-red-300 shadow-outline-red focus:shadow-outline-red focus:border-red-300': !!error }"
                 :value="value"
-                :placeholder="placeholder"
                 :disabled="disabled"
-                @input="updateInput"
-            />
+                @change="updateChange"
+            >
+                <option
+                    v-for="(option, index) in options"
+                    :key="index"
+                    :value="option.value"
+                >
+                    {{ option.label }}
+                </option>
+            </select>
             <div
                 v-if="error"
                 class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
@@ -26,7 +33,7 @@
                 </svg>
             </div>
         </div>
-        <p v-if="error" class="mt-1 text-sm text-red-500" v-text="error" />
+        <p v-if="error" class="text-sm text-red-500" v-text="error" />
     </label>
 </template>
 
@@ -38,12 +45,12 @@ export default {
             require: false,
             default: null,
         },
-        value: {
-            type: String,
-            require: false,
-            default: null,
+        options: {
+            type: Array,
+            require: true,
+            default: () => [],
         },
-        placeholder: {
+        value: {
             type: String,
             require: false,
             default: null,
@@ -64,9 +71,10 @@ export default {
             default: '',
         },
     },
-    emits: ['input'],
+    emits: ['change'],
     methods: {
-        updateInput(event) {
+        updateChange(event) {
+            console.log(event.currentTarget.value)
             this.$emit('input', event.currentTarget.value)
         },
     },

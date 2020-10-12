@@ -4,10 +4,65 @@
             <div class="relative">
                 <form class="my-8" @submit.prevent="onSubmit">
                     <app-title title="「いま」をログに残そう" icon="edit" class="small text-gray-600 mb-2" />
+                    <div class="flex my-2">
+                        <div
+                            v-for="menu in postMenu"
+                            :key="menu.key"
+                        >
+                            <app-button
+                                tag-name="button"
+                                size="lg"
+                                color="primary"
+                                rounded="circle"
+                                class="mr-2"
+                                :disabled="!loggedIn"
+                                :outline="selectedMenu.key !== menu.key"
+                                @click="selectedMenu = menu"
+                            >
+                                <font-awesome-icon
+                                    :icon="['fas', menu.icon]"
+                                />
+                            </app-button>
+                            <p
+                                class="my-1 text-xs text-center font-bold"
+                                :class="{
+                                    'text-blue-500': selectedMenu.key === menu.key,
+                                    'text-blue-300': selectedMenu.key !== menu.key
+                                }"
+                            >
+                                {{ menu.name }}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        v-if="isStore"
+                        class="flex flex-wrap"
+                    >
+                        <div class="w-1/2 mb-2 pr-1">
+                            <app-input
+                                v-model="form.product.price"
+                                label="料金"
+                                type="text"
+                                :error="formState('product.price')"
+                            />
+                        </div>
+                        <div class="w-1/2 mb-2 pl-1">
+                            <app-select
+                                v-model="form.product.payment_count"
+                                label="決済サイクル"
+                                :options="[
+                                    { label: '月額', value: null },
+                                    { label: '１回', value: 1 },
+                                ]"
+                                :error="formState('product.payment_count')"
+                            />
+                        </div>
+                    </div>
                     <app-textarea
                         v-model="form.message"
                         :error="formState('message')"
                         :disabled="!loggedIn"
+                        :placeholder="selectedMenu.placeholder"
                     />
                     <div class="flex justify-between items-center mb-2">
                         <div>
@@ -74,17 +129,22 @@
 import axios from 'axios'
 import AppButton from '../components/AppButton'
 import AppTitle from '../components/AppTitle.vue'
+import AppInput from '../components/AppInput.vue'
+import AppSelect from '../components/AppSelect.vue'
 import AppTextarea from '../components/AppTextarea.vue'
 import ExternalSiteCard from '../components/ExternalSiteCard.vue'
 import PostCardList from '../components/PostCardList.vue'
 import PostImageList from '../components/PostImageList.vue'
 import TextLengthCounter from '../components/TextLengthCounter.vue'
 import { REGEXP_URL } from '../util/const'
+import { postMenu, POST_MENU_STORE } from './Home/PostMenu'
 
 export default {
     components: {
         AppButton,
         AppTitle,
+        AppInput,
+        AppSelect,
         AppTextarea,
         ExternalSiteCard,
         PostCardList,
@@ -98,15 +158,24 @@ export default {
             form: {
                 message: null,
                 images: [],
+                product: {
+                    price: null,
+                    payment_count: null
+                }
             },
             externalSite: null,
             errors: null,
+            selectedMenu: postMenu[0],
+            postMenu,
         }
     },
     computed: {
         loggedIn() {
             return this.$store.getters['auth/loggedIn']
         },
+        isStore() {
+            return this.selectedMenu && this.selectedMenu.key === POST_MENU_STORE
+        }
     },
     watch: {
         'form.message': function (newVal, oldVal) {
@@ -174,6 +243,10 @@ export default {
             if (this.form.message) {
                 formData.append('message', this.form.message)
             }
+            if (this.isStore) {
+                formData.append('product[price]', this.form.product.price)
+                formData.append('product[payment_count]', this.form.product.payment_count || "")
+            }
             Array.from(this.$refs.file.files).forEach((file, index) => {
                 formData.append('images[' + index + ']', file)
             })
@@ -184,10 +257,11 @@ export default {
                     },
                 })
                 .then((response) => {
-                    this.form.message = null
                     this.posts = [response.data, ...this.posts]
+                    this.form.message = null
                     this.externalSite = null
                     this.form.images = []
+                    this.form.product = { price: null, interval: null }
                     this.$refs.file.value = null
                 })
                 .catch((err) => {

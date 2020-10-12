@@ -89,7 +89,8 @@ class PostController extends Controller
             'liking' => $post->liking(Auth::user()),
             'hashtags' => $post->hashtags->pluck('hashtag'),
             'externalSite' => $post->externalSite ?? null,
-            'images' => $post->images->pluck('url')
+            'images' => $post->images->pluck('url'),
+            'product' => $post->product ?? null
         ];
     }
 }

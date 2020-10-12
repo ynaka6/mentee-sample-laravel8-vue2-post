@@ -6,7 +6,7 @@
         :href="targetHref"
         :disabled="disabled"
         class="button hover:opacity-50"
-        :class="[ `button-${size}`, `rounded-${rounded}`, `button-${color}` ]"
+        :class="[ `button-${size}`, `rounded-${rounded}`, `button-${color}`, { 'button-outline': outline } ]"
         @click="$emit('click')"
     >
         <slot></slot>
@@ -58,12 +58,17 @@ export default {
                 return !value || ['success', 'danger', 'primary', 'brand', 'default'].indexOf(value) !== -1
             },
         },
+        outline: {
+            type: Boolean,
+            require: false,
+            default: false,
+        },
         rounded: {
             type: String,
             require: false,
             default: 'none',
             validator: function (value) {
-                return !value || ['none', 'sm', 'lg', 'full'].indexOf(value) !== -1
+                return !value || ['none', 'sm', 'lg', 'full', 'circle'].indexOf(value) !== -1
             },
         },
         disabled: {
@@ -100,20 +105,45 @@ export default {
 .button-success {
     @apply bg-green-500;
 }
+.button-success.button-outline {
+    @apply bg-white border border-green-500 text-green-500;
+}
 .button-danger {
     @apply bg-red-500;
+}
+.button-danger.button-outline {
+    @apply bg-white border border-red-500 text-red-500;
 }
 .button-primary {
     @apply bg-blue-600;
 }
+.button-primary.button-outline {
+    @apply bg-white border border-blue-500 text-blue-500;
+}
 .button-brand {
     @apply bg-orange-400;
+}
+.button-brand.button-outline {
+    @apply bg-white border border-orange-500 text-orange-500;
 }
 .button-default {
     @apply bg-gray-500;
 }
+.button-default.button-outline {
+    @apply bg-white border border-gray-500 text-gray-500;
+}
 
 .button:disabled {
     @apply cursor-not-allowed opacity-50;
+}
+
+.rounded-circle {
+    @apply p-0 flex justify-center items-center rounded-full;
+}
+.rounded-circle.button-lg {
+    @apply w-14 h-14;
+}
+.rounded-circle.button-sm {
+    @apply w-8 h-8;
 }
 </style>
