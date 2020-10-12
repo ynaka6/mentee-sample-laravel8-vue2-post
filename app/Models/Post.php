@@ -35,6 +35,11 @@ class Post extends Model
         return $this->hasOne(PostExternalSite::class);
     }
 
+    public function product(): HasOne
+    {
+        return $this->hasOne(PostProduct::class);
+    }
+
     public function images(): HasMany
     {
         return $this->hasMany(PostImage::class);
@@ -85,6 +90,9 @@ class Post extends Model
             collect($attibutes['images'])->map(function ($filepath) {
                 return $this->images()->create(compact('filepath'));
             });
+        }
+        if ($attibutes['product'] ?? null) {
+            $this->product()->create($attibutes['product'] + [ 'interval' => 'month' ]);
         }
         return $this->fresh();
     }
