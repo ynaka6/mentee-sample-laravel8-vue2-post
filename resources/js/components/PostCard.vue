@@ -7,7 +7,7 @@
             <div class="px-6 border-b"></div>
         </div>
         <p class="text-xs text-gray-600">{{ post.created_at }}</p>
-        <p class="text-sm whitespace-pre-line">
+        <p class="text-sm whitespace-pre-line break-all">
             <convert-link :text="post.message" />
         </p>
         <div
@@ -15,13 +15,13 @@
         >
             <div class="flex justify-between items-center mt-6">
                 <div>
-                    <p class="font-bold text-3xl">{{ post.product.price }}円</p>
+                    <p class="font-bold text-3xl">{{ post.product.price.toLocaleString() }}円</p>
                 </div>
                 <div>
                     <app-button
-                        v-if="post.me"
+                        v-if="!post.me"
                         rounded="full"
-                        @click="onClickDelete"
+                        @click="handleCheckoutPost(post)"
                     >
                         購入
                     </app-button>
@@ -95,6 +95,11 @@ export default {
             default: () => {},
         },
         handleDeletePost: {
+            type: Function,
+            require: true,
+            default: () => {},
+        },
+        handleCheckoutPost: {
             type: Function,
             require: true,
             default: () => {},

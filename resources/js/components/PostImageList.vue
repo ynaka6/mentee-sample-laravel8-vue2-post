@@ -12,7 +12,7 @@
             />
         </div>
         <portal to="modal">
-            <app-modal v-if="selectImage" :handleCloseModal="handleCloseModal">
+            <app-modal v-if="selectImage" :handle-close-modal="handleCloseModal">
                 <img :src="selectImage" class="w-full" />
             </app-modal>
         </portal>
@@ -24,7 +24,7 @@ import AppModal from './AppModal.vue'
 
 export default {
     components: {
-        AppModal
+        AppModal,
     },
     props: {
         images: {
@@ -35,13 +35,13 @@ export default {
     },
     data() {
         return {
-            selectImage: null
+            selectImage: null,
         }
     },
     methods: {
         handleCloseModal() {
             this.selectImage = null
-        }
-    }
+        },
+    },
 }
 </script>

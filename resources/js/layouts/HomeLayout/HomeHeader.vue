@@ -21,7 +21,7 @@
                                 tag-name="router-link"
                                 to="/login"
                                 size="sm"
-                                color="primary"
+                                color="success"
                                 rounded="full"
                                 class="mr-2"
                             >
@@ -31,8 +31,10 @@
                                 tag-name="router-link"
                                 to="/register"
                                 size="sm"
+                                color="success"
                                 rounded="full"
                                 class="mr-2"
+                                outline
                             >
                                 Register
                             </app-button>

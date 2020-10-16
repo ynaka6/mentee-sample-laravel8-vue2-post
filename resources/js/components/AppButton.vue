@@ -55,7 +55,10 @@ export default {
             require: false,
             default: 'brand',
             validator: function (value) {
-                return !value || ['success', 'danger', 'primary', 'brand', 'default'].indexOf(value) !== -1
+                return (
+                    !value ||
+                    ['success', 'danger', 'primary', 'brand', 'default'].indexOf(value) !== -1
+                )
             },
         },
         outline: {
