@@ -71,7 +71,7 @@ export default {
             default: '',
         },
     },
-    emits: ['change'],
+    emits: ['input'],
     methods: {
         updateChange(event) {
             console.log(event.currentTarget.value)

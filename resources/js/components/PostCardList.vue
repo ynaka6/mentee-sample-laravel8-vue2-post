@@ -6,6 +6,7 @@
             :post="post"
             :handle-like-post="handleLikePost"
             :handle-delete-post="handleDeletePost"
+            :handle-checkout-post="handleCheckoutPost"
             class="mb-2"
         >
         </post-card>
@@ -46,6 +47,11 @@ export default {
             default: () => {},
         },
         handleDeletePost: {
+            type: Function,
+            require: true,
+            default: () => {},
+        },
+        handleCheckoutPost: {
             type: Function,
             require: true,
             default: () => {},

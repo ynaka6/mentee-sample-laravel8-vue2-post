@@ -12,7 +12,7 @@
                             <app-button
                                 tag-name="button"
                                 size="lg"
-                                color="primary"
+                                color="success"
                                 rounded="circle"
                                 class="mr-2"
                                 :disabled="!loggedIn"
@@ -26,8 +26,8 @@
                             <p
                                 class="my-1 text-xs text-center font-bold"
                                 :class="{
-                                    'text-blue-500': selectedMenu.key === menu.key,
-                                    'text-blue-300': selectedMenu.key !== menu.key
+                                    'text-green-500': selectedMenu.key === menu.key,
+                                    'text-green-300': selectedMenu.key !== menu.key
                                 }"
                             >
                                 {{ menu.name }}
@@ -120,6 +120,7 @@
                 :handle-fetch-post="fetchPost"
                 :handle-like-post="likePost"
                 :handle-delete-post="deletePost"
+                :handle-checkout-post="checkoutPost"
             />
         </div>
     </div>
@@ -160,8 +161,8 @@ export default {
                 images: [],
                 product: {
                     price: null,
-                    payment_count: null
-                }
+                    payment_count: null,
+                },
             },
             externalSite: null,
             errors: null,
@@ -175,7 +176,7 @@ export default {
         },
         isStore() {
             return this.selectedMenu && this.selectedMenu.key === POST_MENU_STORE
-        }
+        },
     },
     watch: {
         'form.message': function (newVal, oldVal) {
@@ -245,7 +246,7 @@ export default {
             }
             if (this.isStore) {
                 formData.append('product[price]', this.form.product.price)
-                formData.append('product[payment_count]', this.form.product.payment_count || "")
+                formData.append('product[payment_count]', this.form.product.payment_count || '')
             }
             Array.from(this.$refs.file.files).forEach((file, index) => {
                 formData.append('images[' + index + ']', file)
@@ -293,6 +294,14 @@ export default {
             axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
                 this.posts = this.posts.filter((p) => p.id !== post.id)
             })
+        },
+        checkoutPost(post) {
+            if (!this.loggedIn) {
+                if (confirm('商品を購入するにはログインが必要です')) {
+                    this.$router.push('/login')
+                }
+                return
+            }
         },
     },
 }

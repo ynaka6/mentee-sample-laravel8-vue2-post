@@ -7,10 +7,12 @@
             @click.prevent="close"
         />
         <div
-            class="absolute top-0 right-0 mr-4 mt-4 modal-close z-50"
+            class="absolute cursor-pointer top-0 right-0 mr-4 mt-4 modal-close z-50"
             @click.prevent="close"
         >
-            <font-awesome-icon :icon="['fas', 'times']" size="lg" />
+            <div class="flex items-center justify-center rounded-full h-10 w-10 bg-gray-600 text-white">
+                <font-awesome-icon :icon="['fas', 'times']" size="lg" />
+            </div>
         </div>
         <div
             class="bg-white w-full mx-auto rounded shadow-lg z-40"
@@ -23,7 +25,7 @@
                     <p class="text-2xl font-bold">{{ title }}</p>
                 </div>
 
-                <div class="flex flex-grow overflow-y-auto">
+                <div class="flex flex-grow items-center overflow-y-auto">
                     <div class="w-full">
                         <slot />
                     </div>
@@ -53,42 +55,42 @@
 import AppButton from './AppButton'
 export default {
     components: {
-        AppButton
+        AppButton,
     },
     props: {
         title: {
             type: String,
             require: true,
-            default: null
+            default: null,
         },
         size: {
             type: String,
             require: false,
-            default: "md"
+            default: 'md',
         },
         actionText: {
             type: String,
             require: false,
-            default: null
+            default: null,
         },
         handleActionModal: {
             type: Function,
             require: false,
-            default: () => {}
+            default: () => {},
         },
         handleCloseModal: {
             type: Function,
             require: false,
-            default: () => {}
-        }
-    },
-    mounted() {
-        document.body.classList.add("overflow-hidden")
+            default: () => {},
+        },
     },
     computed: {
         modalSize() {
-            return this.size === "md" ? "lg:max-w-3xl" : "lg:max-w-3xl"
-        }
+            return this.size === 'md' ? 'lg:max-w-3xl' : 'lg:max-w-3xl'
+        },
+    },
+    mounted() {
+        document.body.classList.add('overflow-hidden')
     },
     methods: {
         action() {
@@ -96,8 +98,8 @@ export default {
         },
         close() {
             this.handleCloseModal()
-            document.body.classList.remove("overflow-hidden")
-        }
-    }
-};
+            document.body.classList.remove('overflow-hidden')
+        },
+    },
+}
 </script>

@@ -1,19 +1,19 @@
 <template>
     <a
-        :href="url || '#'"
-        class="h-36 border rounded shadow flex mb-4"
+        :href="url || `#`"
+        class="block h-24 lg:h-36 border rounded shadow flex items-center mb-4"
         target="_blank"
     >
-        <div>
+        <div class="w-auto h-full">
             <div
-                class="border-r h-full w-36 bg-gray-100 bg-center bg-cover"
+                class="border-r h-full w-24 lg:w-36 bg-gray-100 bg-center bg-cover"
                 :style="backgroundImageStyle"
             />
         </div>
-        <div class="p-3">
-            <p class="text-sm">{{ title }}</p>
-            <div w-show="description" class="text-xs text-gray-600">{{ description }}</div>
-            <p w-show="url" class="text-xs text-gray-500">{{ url }}</p>
+        <div class="w-full p-2 text-xs">
+            <p class="max-h-4 break-all mb-1 overflow-y-hidden lg:text-sm lg:mb-2">{{ title }}</p>
+            <div w-show="description" class="max-h-8 break-all text-gray-600 overflow-y-hidden lg:mb-2">{{ description }}</div>
+            <p w-show="url" class="break-all text-gray-500">{{ url }}</p>
         </div>
     </a>
 </template>
