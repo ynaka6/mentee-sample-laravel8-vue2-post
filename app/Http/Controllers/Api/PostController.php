@@ -64,7 +64,7 @@ class PostController extends Controller
      * 投稿詳細
      *
      * @param Post $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Post $post)
     {
