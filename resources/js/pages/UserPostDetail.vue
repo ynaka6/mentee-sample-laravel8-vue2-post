@@ -10,57 +10,51 @@
                     />
                 </router-link>
                 <div>
-                    <app-title :title="`#${hashtag}`" class="text-white" />
+                    <app-title :title="`${post.user.name}の投稿`" class="text-white" />
                 </div>
             </div>
-            <post-card-list
-                :posts="posts"
-                :next="!!next"
-                :handle-fetch-post="handleFetchPost"
+
+            <post-card
+                v-if="post"
+                :post="post"
+                :detail="true"
                 :handle-like-post="likePost"
                 :handle-delete-post="deletePost"
-            />
+                :handle-checkout-post="checkoutPost"
+                class="mb-2"
+            >
+            </post-card>   
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
 import AppTitle from '../components/AppTitle.vue'
-import PostCardList from '../components/PostCardList.vue'
+import PostCard from '../components/PostCard.vue'
+
 export default {
     components: {
         AppTitle,
-        PostCardList,
+        PostCard
     },
     data() {
         return {
-            hashtag: this.$route.params.hashtag,
+            postId: this.$route.params.id,
+            post: null,
         }
-    },
-    computed: {
-        posts() {
-            return this.$store.getters['post/posts']
-        },
-        next() {
-            return this.$store.getters['post/next']
-        },
-        loggedIn() {
-            return this.$store.getters['auth/loggedIn']
-        },
     },
     watch: {
         $route(to, from) {
-            this.hashtag = to.params.hashtag
-            this.handleFetchPost({ reset: true })
+            this.postId = to.params.id
+            this.post = this.fetchPost()
         },
     },
-    created() {
-        this.handleFetchPost({ reset: true })
+    async created() {
+        this.post = await this.fetchPost()
     },
     methods: {
-        handleFetchPost(option = {}) {
-            this.$store.dispatch('post/fetchPosts', { hashtag: this.hashtag, ...option })
+        fetchPost() {
+            return this.$store.dispatch('post/fetchPost', { id: this.postId })
         },
         likePost(post) {
             if (!this.loggedIn) {
@@ -79,11 +73,18 @@ export default {
                 })
             }
         },
-        deletePost(post) {
-            axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
-                this.posts = this.posts.filter((p) => p.id !== post.id)
-            })
+        async deletePost(post) {
+            await this.$store.dispatch('post/deletePost', post)
+            this.$router.push('/')
         },
-    },
+        checkoutPost(post) {
+            if (!this.loggedIn) {
+                if (confirm('商品を購入するにはログインが必要です')) {
+                    this.$router.push('/login')
+                }
+                return
+            }
+        },
+    }
 }
 </script>

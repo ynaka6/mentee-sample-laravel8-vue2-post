@@ -47,7 +47,7 @@ export default {
             require: false,
             default: 'md',
             validator: function (value) {
-                return ['sm', 'md', 'lg'].indexOf(value) !== -1
+                return ['xs', 'sm', 'md', 'lg'].indexOf(value) !== -1
             },
         },
         color: {
@@ -98,6 +98,9 @@ export default {
 <style scoped>
 .button {
     @apply bg-gray-500 text-white text-center px-8 py-2 shadow-lg;
+}
+.button-xs {
+    @apply text-xs px-2 py-1 shadow-lg;
 }
 .button-sm {
     @apply text-sm px-6 py-1 shadow-lg;

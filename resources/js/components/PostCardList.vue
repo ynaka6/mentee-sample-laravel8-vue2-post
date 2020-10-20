@@ -18,7 +18,7 @@
 
 <script>
 import Intersect from 'vue-intersect'
-import PostCard from '../components/PostCard.vue'
+import PostCard from './PostCard.vue'
 
 export default {
     components: {

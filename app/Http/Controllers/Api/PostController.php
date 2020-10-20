@@ -61,6 +61,22 @@ class PostController extends Controller
     }
 
     /**
+     * 投稿詳細
+     *
+     * @param Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Post $post)
+    {
+        return response()
+            ->json(
+                $this->transformPost($post),
+                Response::HTTP_CREATED
+            )
+        ;
+    }
+
+    /**
      * 投稿削除
      *
      * @param Post $post

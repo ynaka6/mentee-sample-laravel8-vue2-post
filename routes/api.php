@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\Post;
+use App\Http\Controllers\Api\ExternalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'handle']);
-Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'handle']);
-Route::get('posts', [\App\Http\Controllers\Api\PostController::class, 'index']);
+Route::post('register', [Auth\RegisterController::class, 'handle']);
+Route::post('login', [Auth\LoginController::class, 'handle']);
+Route::get('posts', [PostController::class, 'index']);
+Route::get('post/{post}', [PostController::class, 'show']);
+
 Route::group(['middleware' => 'auth'], function () {
-    Route::delete('logout', [\App\Http\Controllers\Api\Auth\LogoutController::class, 'handle']);
-    Route::post('post', [\App\Http\Controllers\Api\PostController::class, 'store']);
-    Route::delete('post/{post}', [\App\Http\Controllers\Api\PostController::class, 'delete'])->middleware('can:delete,post');
+    Route::delete('logout', [Auth\LogoutController::class, 'handle']);
+    Route::post('post', [PostController::class, 'store']);
+    Route::delete('post/{post}', [PostController::class, 'delete'])->middleware('can:delete,post');
 
-    Route::post('post/{post}/like', [\App\Http\Controllers\Api\Post\LikeController::class, 'like']);
-    Route::delete('post/{post}/unlike', [\App\Http\Controllers\Api\Post\LikeController::class, 'unlike']);
+    Route::post('post/{post}/like', [Post\LikeController::class, 'like']);
+    Route::delete('post/{post}/unlike', [Post\LikeController::class, 'unlike']);
 
-
-    Route::get('external/crawler', [\App\Http\Controllers\Api\ExternalController::class, 'crawler']);
+    Route::get('external/crawler', [ExternalController::class, 'crawler']);
 });

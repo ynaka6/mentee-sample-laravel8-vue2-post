@@ -1,8 +1,8 @@
 <template>
-    <div class="h-full flex justify-center items-center lg:p-6">
-        <div class="w-full max-w-lg">
+    <div class="h-full flex justify-center">
+        <div class="w-full">
             <div class="relative">
-                <form class="my-8" @submit.prevent="onSubmit">
+                <form class="mb-8" @submit.prevent="onSubmit">
                     <app-title title="「いま」をログに残そう" icon="edit" class="small text-gray-600 mb-2" />
                     <div class="flex my-2">
                         <div
@@ -117,7 +117,7 @@
             <post-card-list
                 :posts="posts"
                 :next="!!next"
-                :handle-fetch-post="fetchPost"
+                :handle-fetch-post="handleFetchPost"
                 :handle-like-post="likePost"
                 :handle-delete-post="deletePost"
                 :handle-checkout-post="checkoutPost"
@@ -154,8 +154,6 @@ export default {
     },
     data() {
         return {
-            next: null,
-            posts: [],
             form: {
                 message: null,
                 images: [],
@@ -171,6 +169,12 @@ export default {
         }
     },
     computed: {
+        posts() {
+            return this.$store.getters['post/posts']
+        },
+        next() {
+            return this.$store.getters['post/next']
+        },
         loggedIn() {
             return this.$store.getters['auth/loggedIn']
         },
@@ -196,17 +200,11 @@ export default {
         },
     },
     created() {
-        this.fetchPost()
+        this.handleFetchPost({ reset: true })
     },
     methods: {
-        async fetchPost() {
-            const params = {}
-            if (this.next) {
-                params.maxId = this.next
-            }
-            const response = await axios.get('/api/posts', { params })
-            this.posts.push(...response.data.posts)
-            this.next = response.data.next
+        handleFetchPost(option = {}) {
+            this.$store.dispatch('post/fetchPosts', option)
         },
         async fetchExternalSiteData(url) {
             const response = await axios.get('/api/external/crawler', { params: { url } })
@@ -236,7 +234,7 @@ export default {
                 ? this.errors[name][0]
                 : ''
         },
-        onSubmit() {
+       async onSubmit() {
             if (!this.loggedIn) {
                 return
             }
@@ -251,27 +249,21 @@ export default {
             Array.from(this.$refs.file.files).forEach((file, index) => {
                 formData.append('images[' + index + ']', file)
             })
-            axios
-                .post('/api/post', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                })
-                .then((response) => {
-                    this.posts = [response.data, ...this.posts]
-                    this.form.message = null
-                    this.externalSite = null
-                    this.form.images = []
-                    this.form.product = { price: null, interval: null }
-                    this.$refs.file.value = null
-                })
-                .catch((err) => {
-                    const response = err.response
-                    const errors = response.data.errors
-                    if (errors) {
-                        this.errors = errors
-                    }
-                })
+
+            try {
+                await this.$store.dispatch('post/createPost', formData)
+                this.form.message = null
+                this.externalSite = null
+                this.form.images = []
+                this.form.product = { price: null, interval: null }
+                this.$refs.file.value = null
+            } catch (err) {
+                const response = err.response
+                const errors = response.data.errors
+                if (errors) {
+                    this.errors = errors
+                }
+            }
         },
         likePost(post) {
             if (!this.loggedIn) {
@@ -291,9 +283,7 @@ export default {
             }
         },
         deletePost(post) {
-            axios.delete(`/api/post/${post.id}`, this.form).then((response) => {
-                this.posts = this.posts.filter((p) => p.id !== post.id)
-            })
+            this.$store.dispatch('post/deletePost', post)
         },
         checkoutPost(post) {
             if (!this.loggedIn) {
