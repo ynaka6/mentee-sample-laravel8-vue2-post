@@ -1,20 +1,25 @@
 <template>
     <header>
-        <div class="w-full bg-white">
+        <div class="w-full bg-gray-100">
             <div class="container mx-auto">
                 <nav
-                    class="flex items-center justify-between px-2 lg:px-6 py-3"
+                    class="flex items-center justify-between px-2 lg:px-4 py-3"
                 >
                     <div class="flex items-center flex-shrink-0">
                         <app-logo to="/" />
                     </div>
                     <div class="w-full lg:w-auto mx-0">
                         <div v-if="user" class="flex items-center justify-end">
-                            <div class="p-2">
-                                <a href="#" @click.prevent="onClickLogout">
-                                    Logout
-                                </a>
-                            </div>
+                            <app-dropdown-menu
+                                v-if="menu.length > 0"
+                                :menu="menu"
+                            >
+                                <span class="flex items-center justify-center h-8 w-8 rounded-full text-green-800 hover:bg-green-100">
+                                    <font-awesome-icon
+                                        :icon="['fas', 'ellipsis-v']"
+                                    />
+                                </span>
+                            </app-dropdown-menu>
                         </div>
                         <div v-else class="flex items-center justify-end">
                             <app-button
@@ -48,11 +53,19 @@
 
 <script>
 import AppButton from '../../components/AppButton'
+import AppDropdownMenu from '../../components/AppDropdownMenu'
 import AppLogo from '../../components/AppLogo'
 export default {
     components: {
         AppButton,
+        AppDropdownMenu,
         AppLogo,
+    },
+    data() {
+        const menu = [
+            { label: "ログアウト", icon: ["fas", "sign-out-alt"], handleClick: this.onClickLogout }
+        ]
+        return { menu }
     },
     computed: {
         user() {

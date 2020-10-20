@@ -33,6 +33,12 @@ const routes = [
         meta: { layout: 'home' },
     },
     {
+        path: '/user/:username/post/:id',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "js/post" */ '../pages/UserPostDetail.vue'),
+        meta: { layout: 'home' },
+    },
+    {
         path: '*',
         meta: { layout: 'error', error: 404 },
     },

@@ -3,7 +3,7 @@
         <div class="flex flex-col">
             <div class="min-h-screen flex flex-col">
                 <header>
-                    <div class="w-full bg-white">
+                    <div class="w-full bg-gray-100">
                         <div class="container mx-auto">
                             <nav
                                 class="flex items-center justify-between px-2 lg:px-6 py-3"

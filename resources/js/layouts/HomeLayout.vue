@@ -4,9 +4,14 @@
             <div class="min-h-screen flex flex-col">
                 <home-header />
                 <div class="flex flex-grow">
-                    <div class="w-full overflow-hidden p-2 lg:py-4 lg:px-12">
-                        <div class="container max-w-5xl mx-auto">
+                    <div class="container mx-auto flex">
+                        <div class="hidden w-auto p-4 lg:block lg:w-3/12">
+                            <home-sidemenu />
+                        </div>
+                        <div class="w-full p-4 lg:w-6/12">
                             <router-view></router-view>
+                        </div>
+                        <div class="hidden p-4 lg:block w-3/12">
                         </div>
                     </div>
                 </div>
@@ -20,20 +25,12 @@
 <script>
 import HomeHeader from './HomeLayout/HomeHeader.vue'
 import HomeFooter from './HomeLayout/HomeFooter.vue'
+import HomeSidemenu from './HomeLayout/HomeSidemenu.vue'
 export default {
     components: {
         HomeHeader,
         HomeFooter,
-    },
-    data() {
-        return {
-            drawer: false,
-        }
-    },
-    methods: {
-        onClickMenu() {
-            this.drawer = !this.drawer
-        },
+        HomeSidemenu,
     },
 }
 </script>
