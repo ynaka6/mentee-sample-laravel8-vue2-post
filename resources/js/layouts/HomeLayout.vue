@@ -5,7 +5,7 @@
                 <home-header />
                 <div class="flex flex-grow">
                     <div class="container mx-auto flex">
-                        <div class="hidden w-auto p-4 lg:block lg:w-3/12">
+                        <div class="hidden w-auto lg:block lg:w-3/12">
                             <home-sidemenu />
                         </div>
                         <div class="w-full p-4 lg:w-6/12">

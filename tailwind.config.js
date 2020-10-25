@@ -1,9 +1,12 @@
 module.exports = {
   future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
   },
-  purge: [],
+  purge: [
+    "./resources/js/**/*.{js,vue}",
+    "./resources/css/**/*.{css}",
+  ],
   theme: {
     extend: {},
   },
