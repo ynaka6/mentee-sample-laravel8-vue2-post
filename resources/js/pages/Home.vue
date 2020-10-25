@@ -64,7 +64,7 @@
                         :disabled="!loggedIn"
                         :placeholder="selectedMenu.placeholder"
                     />
-                    <div class="flex justify-between items-center mb-2">
+                    <div class="w-full flex justify-between items-center mb-2">
                         <div>
                             <a
                                 v-if="loggedIn"
@@ -78,7 +78,9 @@
                             </a>
                             <input ref="file" type="file" class="w-0 opacity-0" multiple @change="previewImages" />
                         </div>
-                        <text-length-counter :text="form.message" />
+                        <div class="text-right">
+                            <text-length-counter :text="form.message" />
+                        </div>
                     </div>
                     <post-image-list v-if="form.images.length" :images="form.images" class="mb-1" />
                     <div v-if="form.images.length" class="mb-2">

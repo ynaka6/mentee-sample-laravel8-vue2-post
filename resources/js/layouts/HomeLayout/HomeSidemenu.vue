@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-white rounded-xl p-4" style="border-radius: 1.5rem;">
         <nav class="mb-6">
             <router-link
                 to="/"
