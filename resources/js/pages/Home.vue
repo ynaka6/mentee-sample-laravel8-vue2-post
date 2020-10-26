@@ -78,7 +78,7 @@
                             </a>
                             <input ref="file" type="file" class="w-0 opacity-0" multiple @change="previewImages" />
                         </div>
-                        <div class="text-right">
+                        <div class="hidden text-right lg:flex lg:flex-items">
                             <text-length-counter :text="form.message" />
                         </div>
                     </div>
