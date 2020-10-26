@@ -1,8 +1,8 @@
 <template>
-    <span class="text-gray-500 text-xs">
+    <p class="text-gray-500 text-xs">
         {{ charCount }}
         charactors
-    </span>
+    </p>
 </template>
 
 <script>
