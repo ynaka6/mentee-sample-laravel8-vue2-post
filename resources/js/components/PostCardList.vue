@@ -4,6 +4,7 @@
             v-for="post in posts"
             :key="post.id"
             :post="post"
+            :handle-view-post="handleViewPost"
             :handle-like-post="handleLikePost"
             :handle-delete-post="handleDeletePost"
             :handle-checkout-post="handleCheckoutPost"
@@ -37,6 +38,11 @@ export default {
             default: false,
         },
         handleFetchPost: {
+            type: Function,
+            require: true,
+            default: () => {},
+        },
+        handleViewPost: {
             type: Function,
             require: true,
             default: () => {},

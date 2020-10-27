@@ -37,20 +37,25 @@
             URLが削除されたか移動した可能性があります<br />
             サイトのTOPからお探しください
         </p>
-        <t-button
-            type="button"
+        <app-button
+            tag-name="router-link"
             to="/"
-            variant="primary"
-            size="lg"
-            class="mt-10 w-full"
+            size="sm"
+            color="success"
+            rounded="full"
+            class="mr-2"
         >
-            トップページに戻る
-        </t-button>
+            TOPページに戻る
+        </app-button>
     </section>
 </template>
 
 <script>
+import AppButton from '../../components/AppButton'
 export default {
+    components: {
+        AppButton,
+    },
     props: {
         status: {
             type: Number,

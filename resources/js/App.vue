@@ -10,12 +10,22 @@ export default {
             lang: 'ja',
         },
     },
+    data() {
+        return {
+            template: this.$route.meta.layout || `default`,
+        }
+    },
     computed: {
         layout: {
             cache: false,
             get: function () {
-                return `${this.$route.meta.layout || 'default'}-layout`
+                return `${this.template}-layout`
             },
+        },
+    },
+    watch: {
+        $route: function (newVal, oldVal) {
+            this.template = newVal.meta.layout
         },
     },
 }

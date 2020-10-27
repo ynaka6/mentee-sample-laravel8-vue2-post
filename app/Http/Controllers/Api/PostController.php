@@ -68,11 +68,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post->loadCount('likes');
         return response()
-            ->json(
-                $this->transformPost($post),
-                Response::HTTP_CREATED
-            )
+            ->json($this->transformPost($post))
         ;
     }
 
@@ -103,6 +101,8 @@ class PostController extends Controller
             'created_at' => $post->created_at->format('Y-m-d H:i'),
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
+            'likesCount' => $post->likes_count ?? 0,
+            'commentsCount' => $post->children_count ?? 0,
             'hashtags' => $post->hashtags->pluck('hashtag'),
             'externalSite' => $post->externalSite ?? null,
             'images' => $post->images->pluck('url'),

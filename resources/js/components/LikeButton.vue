@@ -1,12 +1,13 @@
 <template>
     <a
-        class="text-red-500"
+        class="flex items-center text-red-500"
         @click.prevent="$emit('click')"
     >
         <font-awesome-icon
             :icon="[(liking ? 'fas' : 'far'), 'heart']"
             class="mr-1"
-        />
+        /> 
+        <span class="text-xs">{{ count }}</span>
     </a>
 </template>
 
@@ -17,6 +18,11 @@ export default {
             type: Boolean,
             require: true,
             default: false,
+        },
+        count: {
+            type: Number,
+            require: true,
+            default: 0,
         },
     },
     emits: ['click'],

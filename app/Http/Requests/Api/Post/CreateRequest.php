@@ -35,7 +35,8 @@ class CreateRequest extends FormRequest
     {
         $rules = [
             'message' => [ 'required', 'string', 'min:2', 'max:3000' ],
-            'images.*' => ['nullable', 'image', 'max:8192', 'mimes:jpeg,jpg,png,gif']
+            'images.*' => ['nullable', 'image', 'max:8192', 'mimes:jpeg,jpg,png,gif'],
+            'parentId' => ['sometimes', 'integer', 'exists:posts,id'],
         ];
 
         if ($this->product) {
@@ -62,6 +63,9 @@ class CreateRequest extends FormRequest
                     : $image->store('post/images');
             })->toArray()
         ;
+        if (isset($validated['parentId'])) {
+            $validated['parent_id'] = (int) $validated['parentId'];
+        }
                 
         return $validated;
     }

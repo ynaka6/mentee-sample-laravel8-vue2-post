@@ -17,6 +17,7 @@ class Post extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'parent_id',
         'user_id',
         'message'
     ];
@@ -24,6 +25,11 @@ class Post extends Model
     protected $data = [
         'deleted_at'
     ];
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Post::class, 'parent_id');
+    }
 
     public function user(): BelongsTo
     {
@@ -38,6 +44,11 @@ class Post extends Model
     public function product(): HasOne
     {
         return $this->hasOne(PostProduct::class);
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Post::class, 'parent_id');
     }
 
     public function images(): HasMany
@@ -66,6 +77,15 @@ class Post extends Model
             ->when($filters['maxId'] ?? null, function ($query, $maxId) {
                 $query->where('id', '<=', $maxId);
             })
+            ->when(
+                $filters['parentId'] ?? null,
+                function ($query, $parentId) {
+                    $query->where('parent_id', '=', $parentId);
+                },
+                function ($query) {
+                    $query->whereNull('parent_id');
+                },
+            )
         ;
     }
 
@@ -106,6 +126,7 @@ class Post extends Model
     public function searchByCondition(array $condition): object
     {
         $items = $this->with('user')
+            ->withCount('likes', 'children')
             ->filter($condition)
             ->orderBy('id', 'desc')
             ->limit($this->perPage + 1)

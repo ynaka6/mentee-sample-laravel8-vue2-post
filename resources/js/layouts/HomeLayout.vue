@@ -18,7 +18,7 @@
                 <home-footer />
             </div>
         </div>
-        <portal-target name="modal"></portal-target>
+        <portal-target name="modal" multiple></portal-target>
     </div>
 </template>
 

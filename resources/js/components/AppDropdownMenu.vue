@@ -11,18 +11,17 @@
         </a>
         <div
             v-show="open"
-            class="absolute text-left right-0 border mt-2 py-2 w-64 bg-white rounded-lg shadow-full"
+            class="absolute z-10 text-left right-0 border mt-2 py-2 w-64 bg-white rounded-lg shadow-full"
         >
             <component
+                :is="m.tag || `a`"
                 v-for="(m, index) in menu"
                 :key="index"
-                :is="m.tag || `a`"
                 :to="m.to || null"
                 :href="m.href || null"
                 class="block px-3 py-2 text-gray-800 hover:opacity-75"
                 @click="onClick(m)"
             >
-
                 <font-awesome-icon
                     v-if="m.icon"
                     :icon="m.icon"
@@ -41,12 +40,12 @@ export default {
         menu: {
             type: Array,
             require: true,
-            default: [],
+            default: () => [],
         },
     },
     data() {
         return {
-            open: false
+            open: false,
         }
     },
     methods: {
@@ -54,7 +53,7 @@ export default {
             if (m.handleClick) {
                 m.handleClick()
             }
-        }
-    }
+        },
+    },
 }
 </script>

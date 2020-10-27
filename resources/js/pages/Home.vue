@@ -120,6 +120,7 @@
                 :posts="posts"
                 :next="!!next"
                 :handle-fetch-post="handleFetchPost"
+                :handle-view-post="viewPost"
                 :handle-like-post="likePost"
                 :handle-delete-post="deletePost"
                 :handle-checkout-post="checkoutPost"
@@ -236,7 +237,7 @@ export default {
                 ? this.errors[name][0]
                 : ''
         },
-       async onSubmit() {
+        async onSubmit() {
             if (!this.loggedIn) {
                 return
             }
@@ -267,6 +268,12 @@ export default {
                 }
             }
         },
+        viewPost(post) {
+            if (post.me) {
+                return
+            }
+            // TODO: データ量を考慮して未実装
+        },
         likePost(post) {
             if (!this.loggedIn) {
                 if (confirm('いいねするにはログインが必要です')) {
@@ -277,10 +284,12 @@ export default {
             if (post.liking) {
                 axios.delete(`/api/post/${post.id}/unlike`).then((response) => {
                     post.liking = false
+                    post.likesCount = response.data.count
                 })
             } else {
                 axios.post(`/api/post/${post.id}/like`).then((response) => {
                     post.liking = true
+                    post.likesCount = response.data.count
                 })
             }
         },
