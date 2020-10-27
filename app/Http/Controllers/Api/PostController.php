@@ -101,7 +101,9 @@ class PostController extends Controller
             'created_at' => $post->created_at->format('Y-m-d H:i'),
             'me' => $post->user->is(Auth::user()),
             'liking' => $post->liking(Auth::user()),
+            // @phpstan-ignore-next-line
             'likesCount' => $post->likes_count ?? 0,
+            // @phpstan-ignore-next-line
             'commentsCount' => $post->children_count ?? 0,
             'hashtags' => $post->hashtags->pluck('hashtag'),
             'externalSite' => $post->externalSite ?? null,
