@@ -63,7 +63,7 @@ export default {
     },
     data() {
         const menu = [
-            { label: "ログアウト", icon: ["fas", "sign-out-alt"], handleClick: this.onClickLogout }
+            { label: 'ログアウト', icon: ['fas', 'sign-out-alt'], handleClick: this.onClickLogout },
         ]
         return { menu }
     },

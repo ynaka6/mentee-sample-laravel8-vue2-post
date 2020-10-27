@@ -39,11 +39,9 @@
 
 <script>
 import AppButton from '../../components/AppButton'
-import AppLogo from '../../components/AppLogo'
 export default {
     components: {
         AppButton,
-        AppLogo,
     },
     computed: {
         user() {

@@ -27,7 +27,9 @@ class SearchRequest extends FormRequest
             // ハッシュタグ
             'hashtag' => [ 'nullable' ],
             // 最大ID
-            'maxId' => [ 'nullable', 'integer' ]
+            'maxId' => [ 'nullable', 'integer' ],
+            // 親ID
+            'parentId' => [ 'nullable', 'integer' ]
         ];
     }
 }

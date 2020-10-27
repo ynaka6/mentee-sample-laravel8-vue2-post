@@ -8,11 +8,14 @@
             <div
                 class="border h-full w-full bg-gray-100 bg-center bg-cover"
                 :style="{ backgroundImage: `url('${image}')` }"
-                @click.prevent="selectImage = image"
+                @click.prevent="onClick(image)"
             />
         </div>
         <portal to="modal">
-            <app-modal v-if="selectImage" :handle-close-modal="handleCloseModal">
+            <app-modal
+                ref="imageModal"
+                :handle-close-modal="handleCloseModal"
+            >
                 <img :src="selectImage" class="w-full" />
             </app-modal>
         </portal>
@@ -39,6 +42,10 @@ export default {
         }
     },
     methods: {
+        onClick(image) {
+            this.selectImage = image
+            this.$refs.imageModal.show()
+        },
         handleCloseModal() {
             this.selectImage = null
         },
