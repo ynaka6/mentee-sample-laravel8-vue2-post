@@ -38,7 +38,6 @@
                     </div>
                     <div>
                         <app-button
-                            v-if="!post.me"
                             rounded="full"
                             @click="handleCheckoutPost(post)"
                         >
